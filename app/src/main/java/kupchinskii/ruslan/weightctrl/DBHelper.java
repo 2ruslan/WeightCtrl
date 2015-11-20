@@ -145,31 +145,20 @@ public class DBHelper {
             db.close();
         }
 
+		ContentValues values = new ContentValues();
+		values.put(DB.C_STG_SEX, pSex);
+		values.put(DB.C_STG_BIRTHDAY, pBirthDay);
+		
         // add
-        if (id == -1) {
-            try {
-                db = DB.getDBWrite();
-                db.execSQL(sql_add_stg, new String[]{
-                                String.valueOf(pSex),
-                                DB.getDataStr(pBirthDay)
-                                }
-                );
-            } finally {
+		try {
+			db = DB.getDBWrite();
+            if (id == -1) 
+				db.insert(DB.T_STG, null, values)
+            else 
+                db.update(DB.T_STG, values, null, new String[]{});
+			} finally {
                 db.close();
             }
-        }else {
-            // upd
-            try {
-                db = DB.getDBWrite();
-                db.execSQL(sql_upd_stg, new String[]{
-                                String.valueOf(pSex),
-                                DB.getDataStr(pBirthDay)
-                                }
-                );
-            } finally {
-                db.close();
-            }
-        }
     }
 
     public static settings GetSettings() {
