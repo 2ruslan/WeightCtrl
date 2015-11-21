@@ -6,6 +6,125 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
-    <TextView android:text="Hello World!" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/et_bd"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:id="@+id/et_gh"
+        android:layout_below="@+id/et_bd"
+        android:layout_alignRight="@+id/et_bd"
+        android:layout_alignEnd="@+id/et_bd" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="др"
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/et_bd"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="рост"
+        android:id="@+id/tv_gr"
+        android:layout_below="@+id/et_bd"
+        android:layout_toLeftOf="@+id/et_bd"
+        android:layout_toStartOf="@+id/et_bd" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:id="@+id/et_sx"
+        android:layout_below="@+id/et_gh"
+        android:layout_toRightOf="@+id/tv_gr"
+        android:layout_toEndOf="@+id/tv_gr" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="пол"
+        android:id="@+id/textView3"
+        android:layout_alignBottom="@+id/et_sx"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:id="@+id/et_wg"
+        android:layout_below="@+id/et_sx"
+        android:layout_toRightOf="@+id/tv_gr"
+        android:layout_toEndOf="@+id/tv_gr" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="вес"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/et_sx"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:id="@+id/et_hp"
+        android:layout_below="@+id/et_wg"
+        android:layout_alignLeft="@+id/et_wg"
+        android:layout_alignStart="@+id/et_wg" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="талия"
+        android:id="@+id/textView5"
+        android:layout_alignBottom="@+id/et_hp"
+        android:layout_toLeftOf="@+id/et_wg"
+        android:layout_toStartOf="@+id/et_wg" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="save"
+        android:id="@+id/bt_save"
+        android:layout_marginTop="42dp"
+        android:layout_below="@+id/et_hp"
+        android:layout_toLeftOf="@+id/et_hp"
+        android:layout_toStartOf="@+id/et_hp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="del"
+        android:id="@+id/bt_del"
+        android:layout_alignTop="@+id/bt_save"
+        android:layout_alignRight="@+id/et_hp"
+        android:layout_alignEnd="@+id/et_hp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cancel"
+        android:id="@+id/bt_cancel"
+        android:layout_below="@+id/bt_del"
+        android:layout_toRightOf="@+id/bt_del"
+        android:layout_toEndOf="@+id/bt_save" />
 </RelativeLayout>

@@ -23,7 +23,6 @@ public class DBHelper {
         String onDade = DB.getDataStr(Calendar.getInstance().getTime());
 
         SQLiteDatabase db = DB.getDBRead();
-        // get current
         try {
             cursor = db.query(DB.T_RES, new String[]{DB.C_RES_ID}, DB.C_RES_ONDATE + " = ?", new String[]{onDade}, null, null, null);
 
@@ -37,10 +36,30 @@ public class DBHelper {
             db.close();
         }
 
+        int GrownLast = 0;
+        int WeightLast = 0;
+        int HipsLast = 0;
+        try {
+            db = DB.getDBRead();
+            cursor = db.query(DB.T_RES, new String[]{DB.C_RES_GROWTH, DB.C_RES_WEIGHT, DB.C_RES_HIPS},
+                    null, null, null, null, DB.C_RES_ID  + " DESC LIMIT 1" );
+
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                GrownLast = cursor.getInt(cursor.getColumnIndex(DB.C_RES_GROWTH));
+                WeightLast = cursor.getInt(cursor.getColumnIndex(DB.C_RES_WEIGHT));
+                HipsLast = cursor.getInt(cursor.getColumnIndex(DB.C_RES_HIPS));
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+            db.close();
+        }
+
         ContentValues values = new ContentValues();
-        values.put(DB.C_RES_GROWTH, pGrown);
-        values.put(DB.C_RES_HIPS, pHips);
-        values.put(DB.C_RES_WEIGHT, pWeight);
+        values.put(DB.C_RES_GROWTH, pGrown > 0 ? pGrown : GrownLast );
+        values.put(DB.C_RES_HIPS, pHips > 0 ? pHips : HipsLast);
+        values.put(DB.C_RES_WEIGHT, pWeight > 0 ? pWeight :WeightLast);
         try {
             db = DB.getDBWrite();
             if (id == -1) {
@@ -60,6 +79,36 @@ public class DBHelper {
         return  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
                 , DB.C_RES_GROWTH, DB.C_RES_HIPS}
                 , null, null, null, null, null);
+    }
+
+    public static result GetReusultLast()
+    {
+        Cursor cursor = null;
+        result res = new result();
+        SQLiteDatabase db = DB.getDBRead();
+        try{
+            cursor =  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
+                        , DB.C_RES_GROWTH, DB.C_RES_HIPS}
+                        , null, null, null, null, DB.C_RES_ONDATE + " DESC LIMIT 1");
+
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                res.growth = cursor.getInt(cursor.getColumnIndex(DB.C_RES_GROWTH));
+                res.hips = cursor.getInt(cursor.getColumnIndex(DB.C_RES_HIPS));
+                res.weight = cursor.getInt(cursor.getColumnIndex(DB.C_RES_WEIGHT));
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+            db.close();
+        }
+        return  res;
+    }
+
+    public static class result {
+        int growth;
+        int hips;
+        int weight;
     }
     //endregion results
 
