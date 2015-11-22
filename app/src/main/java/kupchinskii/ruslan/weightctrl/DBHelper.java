@@ -88,14 +88,19 @@ public class DBHelper {
         SQLiteDatabase db = DB.getDBRead();
         try{
             cursor =  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
-                        , DB.C_RES_GROWTH, DB.C_RES_HIPS}
-                        , null, null, null, null, DB.C_RES_ONDATE + " DESC LIMIT 1");
+                         , DB.C_RES_GROWTH, DB.C_RES_HIPS
+                        ," (SELECT " + DB.C_STG_BIRTHDAY + " FROM " + DB.T_STG  + " LIMIT 1) AS " + DB.C_STG_BIRTHDAY
+                        ," (SELECT " + DB.C_STG_SEX + " FROM " + DB.T_STG  + " LIMIT 1) AS " + DB.C_STG_SEX
+                          }, null, null, null, null, DB.C_RES_ONDATE + " DESC LIMIT 1");
 
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 res.growth = cursor.getInt(cursor.getColumnIndex(DB.C_RES_GROWTH));
                 res.hips = cursor.getInt(cursor.getColumnIndex(DB.C_RES_HIPS));
                 res.weight = cursor.getInt(cursor.getColumnIndex(DB.C_RES_WEIGHT));
+                res.onDate = DB.getData(cursor.getString(cursor.getColumnIndex(DB.C_RES_ONDATE)));
+                res.sex = cursor.getInt(cursor.getColumnIndex(DB.C_STG_SEX));
+                res.birthday = DB.getData(cursor.getString(cursor.getColumnIndex(DB.C_STG_BIRTHDAY)));
             }
         } finally {
             if (cursor != null)
@@ -106,9 +111,12 @@ public class DBHelper {
     }
 
     public static class result {
+        Date onDate;
         int growth;
         int hips;
         int weight;
+        int sex;
+        Date birthday;
     }
     //endregion results
 
