@@ -21,32 +21,38 @@ public class MainActivity extends AppCompatActivity {
 
     TextView _crlGrowth;
 
-    private int GetGrowth() {
-        return Integer.parseInt(_crlGrowth.getText().toString());
+    private Integer str2int(String val){
+        Integer res = null;
+        if(val != null && !val.equals(""))
+            res = Integer.parseInt(val);
+        return  res;
     }
 
-    private void SetGrowth(int val) {
-        _crlGrowth.setText(String.valueOf(val));
+    private Integer GetGrowth() {
+        return  str2int(_crlWeight.getText().toString());
     }
 
-    TextView _crlSex;
-
-    private int GetSex() {
-        return Integer.parseInt(_crlSex.getText().toString());
-    }
-
-    private void SetSex(int val) {
-        _crlSex.setText(String.valueOf(val));
+    private void SetGrowth(Integer val) {
+        if(val != null)
+            _crlGrowth.setText(String.valueOf(val));
+        else
+            _crlGrowth.setText(null);
     }
 
     TextView _crlWeight;
 
-    private int GetWeight() {
-        return Integer.parseInt(_crlWeight.getText().toString());
+    private Integer GetWeight() {
+        Integer res = str2int(_crlWeight.getText().toString());
+        if(res != null)
+            res *=  10;
+        return  res;
     }
 
-    private void SetWeight(int val) {
-        _crlWeight.setText(String.valueOf(val));
+    private void SetWeight(Integer val) {
+        if(val != null)
+            _crlWeight.setText(String.valueOf(val / 10));
+        else
+            _crlWeight.setText(null);
     }
 
     TextView _crlBD;
@@ -56,17 +62,22 @@ public class MainActivity extends AppCompatActivity {
     }
     private void SetBD(Date val) {
         _dateBD = val;
-        _crlBD.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(val));
+        if(val != null)
+            _crlBD.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(val));
+        else
+            _crlBD.setText(null);
     }
 
     TextView _crlHips;
-    private int GetHips() {
-        return Integer.parseInt(_crlHips.getText().toString());
+    private Integer GetHips() {
+        return str2int(_crlHips.getText().toString());
     }
-    private void SetHips(int val) {
-        _crlHips.setText(String.valueOf(val));
+    private void SetHips(Integer val) {
+        if(val != null)
+            _crlHips.setText(String.valueOf(val));
+        else
+            _crlHips.setText(null);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         _crlGrowth = (TextView) findViewById(R.id.et_gh);
-        _crlSex = (TextView) findViewById(R.id.et_sx);
         _crlWeight = (TextView) findViewById(R.id.et_wg);
         _crlHips = (TextView) findViewById(R.id.et_hp);
         _crlBD = (TextView) findViewById(R.id.et_bd);
@@ -91,13 +101,12 @@ public class MainActivity extends AppCompatActivity {
         SetGrowth(res.growth);
         SetWeight(res.weight);
         SetHips(res.hips);
-        SetSex(res.sex);
         SetBD(res.birthday);
     }
 
     public void OnClickSave(View view){
         DBHelper.SaveResults(GetGrowth(), GetHips(), GetWeight());
-        DBHelper.SaveSettings(GetSex(), GetBD());
+        DBHelper.SaveSettings(GetBD());
     }
 
 

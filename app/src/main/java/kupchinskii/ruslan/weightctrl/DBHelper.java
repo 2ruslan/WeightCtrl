@@ -17,7 +17,7 @@ import java.util.Date;
 public class DBHelper {
 
     //region results
-    public static void SaveResults(int pGrown, int pHips, int pWeight) {
+    public static void SaveResults(Integer pGrown, Integer pHips, Integer pWeight) {
         Cursor cursor = null;
         long id = -1;
         String onDade = DB.getDataStr(Calendar.getInstance().getTime());
@@ -36,9 +36,9 @@ public class DBHelper {
             db.close();
         }
 
-        int GrownLast = 0;
-        int WeightLast = 0;
-        int HipsLast = 0;
+        Integer GrownLast = null;
+        Integer WeightLast = null;
+        Integer HipsLast = null;
         try {
             db = DB.getDBRead();
             cursor = db.query(DB.T_RES, new String[]{DB.C_RES_GROWTH, DB.C_RES_WEIGHT, DB.C_RES_HIPS},
@@ -57,9 +57,10 @@ public class DBHelper {
         }
 
         ContentValues values = new ContentValues();
-        values.put(DB.C_RES_GROWTH, pGrown > 0 ? pGrown : GrownLast );
-        values.put(DB.C_RES_HIPS, pHips > 0 ? pHips : HipsLast);
-        values.put(DB.C_RES_WEIGHT, pWeight > 0 ? pWeight :WeightLast);
+        values.put(DB.C_RES_GROWTH, pGrown != null ? pGrown : GrownLast );
+        values.put(DB.C_RES_HIPS, pHips != null ? pHips : HipsLast);
+        values.put(DB.C_RES_WEIGHT, pWeight != null ? pWeight :WeightLast);
+
         try {
             db = DB.getDBWrite();
             if (id == -1) {
@@ -90,7 +91,6 @@ public class DBHelper {
             cursor =  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
                          , DB.C_RES_GROWTH, DB.C_RES_HIPS
                         ," (SELECT " + DB.C_STG_BIRTHDAY + " FROM " + DB.T_STG  + " LIMIT 1) AS " + DB.C_STG_BIRTHDAY
-                        ," (SELECT " + DB.C_STG_SEX + " FROM " + DB.T_STG  + " LIMIT 1) AS " + DB.C_STG_SEX
                           }, null, null, null, null, DB.C_RES_ONDATE + " DESC LIMIT 1");
 
             if (cursor.getCount() > 0) {
@@ -99,7 +99,6 @@ public class DBHelper {
                 res.hips = cursor.getInt(cursor.getColumnIndex(DB.C_RES_HIPS));
                 res.weight = cursor.getInt(cursor.getColumnIndex(DB.C_RES_WEIGHT));
                 res.onDate = DB.getData(cursor.getString(cursor.getColumnIndex(DB.C_RES_ONDATE)));
-                res.sex = cursor.getInt(cursor.getColumnIndex(DB.C_STG_SEX));
                 res.birthday = DB.getData(cursor.getString(cursor.getColumnIndex(DB.C_STG_BIRTHDAY)));
             }
         } finally {
@@ -111,19 +110,24 @@ public class DBHelper {
     }
 
     public static class result {
+        public result()
+        {
+            onDate = null;
+            growth = null;
+            hips = null;
+            weight = null;
+            birthday = null;
+        }
         Date onDate;
-        int growth;
-        int hips;
-        int weight;
-        int sex;
+        Integer growth;
+        Integer hips;
+        Integer weight;
         Date birthday;
     }
     //endregion results
 
     //region setings
-    public static void SaveSettings(int pSex /* 1 - male 0 - female */
-                                   ,Date pBirthDay
-                                  ) {
+    public static void SaveSettings(Date pBirthDay) {
         Cursor cursor = null;
         long id = -1;
 
@@ -143,7 +147,6 @@ public class DBHelper {
         }
 
 		ContentValues values = new ContentValues();
-		values.put(DB.C_STG_SEX, pSex);
 		values.put(DB.C_STG_BIRTHDAY, DB.getDataStr(pBirthDay));
 		
 		try {
@@ -157,33 +160,6 @@ public class DBHelper {
         }
     }
 
-    public static settings GetSettings() {
-        Cursor cursor = null;
-        long id = -1;
-        settings res = new settings();
-        SQLiteDatabase db = DB.getDBRead();
-        // get current
-        try {
-            cursor = db.query(DB.T_STG, new String[]{DB.C_STG_ID, DB.C_STG_BIRTHDAY, DB.C_STG_SEX}
-                    , null, null, null, null, null);
-
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                res.sex = cursor.getInt(cursor.getColumnIndex(DB.C_STG_ID));
-                res.birthday = DB.getData(cursor.getString(cursor.getColumnIndex(DB.C_STG_BIRTHDAY)));
-            }
-        } finally {
-            if (cursor != null)
-                cursor.close();
-            db.close();
-        }
-        return res;
-    }
-
-    public static class settings {
-        int sex;
-        Date birthday;
-    }
     //endregion setings
 
 }

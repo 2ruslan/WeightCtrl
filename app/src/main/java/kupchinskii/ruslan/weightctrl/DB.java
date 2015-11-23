@@ -94,19 +94,32 @@ public class DB  extends SQLiteOpenHelper{
     //region settings table
     public static final String T_STG = "STG";
     public static final String C_STG_ID = "_id";
-    public static final String C_STG_SEX = "SEX";
     public static final String C_STG_BIRTHDAY = "BIRTHDAY";
     private static final String SQL_CREATE_STG = "CREATE TABLE " + T_STG + " ("
             + C_STG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + C_STG_SEX + " INTEGER, "
             + C_STG_BIRTHDAY + " DATE "
             + ");";
     //endregion settings table
 
+    //region results viev
+    public static final String V_RES = "V_RES";
+    public static final String C_RES_IMT = "IMT";
+    public static final String C_RES_HIPS_NORM = "IMT";
+    public static final String C_RES_AGE = "AGE";
+    private static final String SQL_CREATE_VRES = "CREATE VIEW " + V_RES + " AS SELECT " +
+            DB.getColName(T_RES, C_RES_ID) + " AS " + C_RES_ID + ", " +
+            C_RES_ONDATE + ", " +
+            C_RES_WEIGHT + ", " +
+            C_RES_GROWTH + ", " +
+            C_RES_HIPS  + ", " +
+            " ROUND( " + C_RES_WEIGHT + " / ((" + C_RES_GROWTH + " / 100.0) *(" + C_RES_GROWTH + " / 100.0) ), 1) AS " + C_RES_IMT + ", " +
+            C_RES_GROWTH + " / 2.0 as " + C_RES_HIPS_NORM + ", " +
+            C_RES_ONDATE + " - " + C_STG_BIRTHDAY + " +( CASE WHEN strftime( '%m-%d', " + C_RES_ONDATE + ") < strftime( '%m-%d', " + C_STG_BIRTHDAY + " ) THEN -1 ELSE 0 END )  AS " + C_RES_AGE +
+            " FROM " + T_RES + ", " + T_STG
+            ;
+    //endregion results view
+
     private static final int DATABASE_VERSION = 1;
-
-
-
 
     //region utils
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -132,7 +145,7 @@ public class DB  extends SQLiteOpenHelper{
     }
 
     public static String getDataStr(Date dt) {
-        return sdf.format(dt);
+        return dt != null ? sdf.format(dt) : null;
     }
     //endregion main
 
@@ -166,6 +179,7 @@ public class DB  extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_STG);
         db.execSQL(SQL_CREATE_IMT);
         db.execSQL(SQL_DATA_IMT);
+        db.execSQL(SQL_CREATE_VRES);
     }
 
     @Override
