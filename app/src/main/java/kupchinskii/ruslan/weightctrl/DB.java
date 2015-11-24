@@ -53,6 +53,7 @@ public class DB  extends SQLiteOpenHelper{
                     C_IMT_IMT_DEC + ") " +
             "       SELECT 0, 200, 0, 19, 0 " + // низкая масса тела для всех возрастов
                     // нормальная маасса тела
+            " UNION SELECT 0,  18, 19, 24, 1" + // до 18 лет вес нормальным считается у всех
             " UNION SELECT 19, 24, 19, 24, 1" +
             " UNION SELECT 25, 34, 19, 25, 1" +
             " UNION SELECT 35, 44, 19, 26, 1" +

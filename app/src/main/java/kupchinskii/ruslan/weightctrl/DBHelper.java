@@ -39,6 +39,7 @@ public class DBHelper {
         Integer GrownLast = null;
         Integer WeightLast = null;
         Integer HipsLast = null;
+        int index;
         try {
             db = DB.getDBRead();
             cursor = db.query(DB.T_RES, new String[]{DB.C_RES_GROWTH, DB.C_RES_WEIGHT, DB.C_RES_HIPS},
@@ -46,9 +47,12 @@ public class DBHelper {
 
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                GrownLast = cursor.getInt(cursor.getColumnIndex(DB.C_RES_GROWTH));
-                WeightLast = cursor.getInt(cursor.getColumnIndex(DB.C_RES_WEIGHT));
-                HipsLast = cursor.getInt(cursor.getColumnIndex(DB.C_RES_HIPS));
+                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_GROWTH)))
+                    GrownLast = cursor.getInt(index);
+                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_WEIGHT)))
+                    WeightLast = cursor.getInt(index);
+                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_HIPS)))
+                    HipsLast = cursor.getInt(index);
             }
         } finally {
             if (cursor != null)
@@ -93,13 +97,19 @@ public class DBHelper {
                         ," (SELECT " + DB.C_STG_BIRTHDAY + " FROM " + DB.T_STG  + " LIMIT 1) AS " + DB.C_STG_BIRTHDAY
                           }, null, null, null, null, DB.C_RES_ONDATE + " DESC LIMIT 1");
 
+            int index;
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                res.growth = cursor.getInt(cursor.getColumnIndex(DB.C_RES_GROWTH));
-                res.hips = cursor.getInt(cursor.getColumnIndex(DB.C_RES_HIPS));
-                res.weight = cursor.getInt(cursor.getColumnIndex(DB.C_RES_WEIGHT));
-                res.onDate = DB.getData(cursor.getString(cursor.getColumnIndex(DB.C_RES_ONDATE)));
-                res.birthday = DB.getData(cursor.getString(cursor.getColumnIndex(DB.C_STG_BIRTHDAY)));
+                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_GROWTH)))
+                    res.growth = cursor.getInt(index);
+                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_HIPS)))
+                    res.hips = cursor.getInt(index);
+                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_WEIGHT)))
+                    res.weight = cursor.getInt(index);
+                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_ONDATE)))
+                    res.onDate = DB.getData(cursor.getString(index));
+                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_STG_BIRTHDAY)))
+                    res.birthday = DB.getData(cursor.getString(index));
             }
         } finally {
             if (cursor != null)
