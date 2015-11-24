@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Integer GetGrowth() {
-        return  str2int(_crlWeight.getText().toString());
+        return  str2int(_crlGrowth.getText().toString());
     }
 
     private void SetGrowth(Integer val) {
@@ -42,10 +42,14 @@ public class MainActivity extends AppCompatActivity {
     TextView _crlWeight;
 
     private Integer GetWeight() {
-        Integer res = str2int(_crlWeight.getText().toString());
+        Double res = null;
+        String val = _crlWeight.getText().toString();
+        if(val != null && !val.equals(""))
+            res = Double.parseDouble(val);
+
         if(res != null)
             res *=  10;
-        return  res;
+        return (int)Math.round(res);
     }
 
     private void SetWeight(Integer val) {
@@ -79,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
             _crlHips.setText(null);
     }
 
+    TextView _crlResW;
+    TextView _crlResH;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
         _crlHips = (TextView) findViewById(R.id.et_hp);
         _crlBD = (TextView) findViewById(R.id.et_bd);
 
-
+        _crlResW = (TextView) findViewById(R.id.et_resw);
+        _crlResH = (TextView) findViewById(R.id.et_resh);
 
         DB.initDB(this);
 
@@ -102,7 +110,30 @@ public class MainActivity extends AppCompatActivity {
         SetWeight(res.weight);
         SetHips(res.hips);
         SetBD(res.birthday);
+
+        // ---------------------
+        try {
+            String resw = "";
+            if (res.imt < res.imt0)
+                resw = "недостаток веса";
+            else if ((res.imt >= res.imt0 && res.imt < res.imt1))
+                resw = "норма";
+            else if ((res.imt >= res.imt1 && res.imt < res.imt2))
+                resw = "чуть перебор";
+            else if ((res.imt >= res.imt2))
+                resw = "перебор";
+
+            resw = resw + " твой:" + String.valueOf(res.imt) + "  max:" + String.valueOf(res.imt1);
+            _crlResW.setText(resw);
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+        //_crlResH.setText("твой:" + );
     }
+
 
     public void OnClickSave(View view){
         DBHelper.SaveResults(GetGrowth(), GetHips(), GetWeight());

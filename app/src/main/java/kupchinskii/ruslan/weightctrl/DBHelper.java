@@ -92,24 +92,40 @@ public class DBHelper {
         result res = new result();
         SQLiteDatabase db = DB.getDBRead();
         try{
-            cursor =  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
+            cursor =  db.query(DB.V_RES_FULL, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
                          , DB.C_RES_GROWTH, DB.C_RES_HIPS
+                         , DB.C_RES_IMT
+                         , DB.C_RES_IMT_0, DB.C_RES_IMT_1, DB.C_RES_IMT_2, DB.C_RES_IMT_3, DB.C_RES_IMT_4, DB.C_RES_IMT_5
                         ," (SELECT " + DB.C_STG_BIRTHDAY + " FROM " + DB.T_STG  + " LIMIT 1) AS " + DB.C_STG_BIRTHDAY
                           }, null, null, null, null, DB.C_RES_ONDATE + " DESC LIMIT 1");
 
             int index;
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_GROWTH)))
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_GROWTH)))
                     res.growth = cursor.getInt(index);
-                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_HIPS)))
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_HIPS)))
                     res.hips = cursor.getInt(index);
-                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_WEIGHT)))
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_WEIGHT)))
                     res.weight = cursor.getInt(index);
-                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_ONDATE)))
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_ONDATE)))
                     res.onDate = DB.getData(cursor.getString(index));
-                if (cursor.isNull(index=cursor.getColumnIndex(DB.C_STG_BIRTHDAY)))
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_STG_BIRTHDAY)))
                     res.birthday = DB.getData(cursor.getString(index));
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT )))
+                    res.imt = cursor.getDouble(index);
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_0 )))
+                    res.imt0 = cursor.getDouble(index);
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_1 )))
+                    res.imt1 = cursor.getDouble(index);
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_2 )))
+                    res.imt2 = cursor.getDouble(index);
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_3 )))
+                    res.imt3 = cursor.getDouble(index);
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_4 )))
+                    res.imt4 = cursor.getDouble(index);
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_5 )))
+                    res.imt5 = cursor.getDouble(index);
             }
         } finally {
             if (cursor != null)
@@ -127,11 +143,24 @@ public class DBHelper {
             hips = null;
             weight = null;
             birthday = null;
+            imt0 = null;
+            imt1 = null;
+            imt2 = null;
+            imt3 = null;
+            imt4 = null;
+            imt5 = null;
         }
         Date onDate;
         Integer growth;
         Integer hips;
         Integer weight;
+        Double imt;
+        Double imt0;
+        Double imt1;
+        Double imt2;
+        Double imt3;
+        Double imt4;
+        Double imt5;
         Date birthday;
     }
     //endregion results

@@ -51,7 +51,7 @@ public class DB  extends SQLiteOpenHelper{
                     C_IMT_IMT_LOW + ", " +
                     C_IMT_IMT_UPP + ", " +
                     C_IMT_IMT_DEC + ") " +
-            "       SELECT 0, 200, 0, 19, 0 " + // низкая масса тела для всех возрастов
+            "       SELECT 19, 200, 0, 19, 0 " + // низкая масса тела для всех возрастов
                     // нормальная маасса тела
             " UNION SELECT 0,  18, 19, 24, 1" + // до 18 лет вес нормальным считается у всех
             " UNION SELECT 19, 24, 19, 24, 1" +
@@ -113,12 +113,39 @@ public class DB  extends SQLiteOpenHelper{
             C_RES_WEIGHT + ", " +
             C_RES_GROWTH + ", " +
             C_RES_HIPS  + ", " +
-            " ROUND( " + C_RES_WEIGHT + " / ((" + C_RES_GROWTH + " / 100.0) *(" + C_RES_GROWTH + " / 100.0) ), 1) AS " + C_RES_IMT + ", " +
+            " ROUND( (" + C_RES_WEIGHT + " / 100) / ((" + C_RES_GROWTH + " / 100.0) *(" + C_RES_GROWTH + " / 100.0) ), 1) AS " + C_RES_IMT + ", " +
             C_RES_GROWTH + " / 2.0 as " + C_RES_HIPS_NORM + ", " +
-            C_RES_ONDATE + " - " + C_STG_BIRTHDAY + " +( CASE WHEN strftime( '%m-%d', " + C_RES_ONDATE + ") < strftime( '%m-%d', " + C_STG_BIRTHDAY + " ) THEN -1 ELSE 0 END )  AS " + C_RES_AGE +
+            " CAST (" + C_RES_ONDATE + " - " + C_STG_BIRTHDAY + " +( CASE WHEN strftime( '%m-%d', " + C_RES_ONDATE + ") < strftime( '%m-%d', " + C_STG_BIRTHDAY + " ) THEN -1 ELSE 0 END ) AS INT)  AS " + C_RES_AGE +
             " FROM " + T_RES + ", " + T_STG
             ;
     //endregion results view
+
+    //region results full viev
+    public static final String V_RES_FULL = "V_RES_FULL";
+    public static final String C_RES_IMT_0 = "IMT_0";
+    public static final String C_RES_IMT_1 = "IMT_1";
+    public static final String C_RES_IMT_2 = "IMT_2";
+    public static final String C_RES_IMT_3 = "IMT_3";
+    public static final String C_RES_IMT_4 = "IMT_4";
+    public static final String C_RES_IMT_5 = "IMT_5";
+    private static final String SQL_CREATE_VRES_FULL = "CREATE VIEW " + V_RES_FULL + " AS SELECT " +
+            C_RES_ID + ", " +
+            C_RES_ONDATE + ", " +
+            C_RES_WEIGHT + ", " +
+            C_RES_GROWTH + ", " +
+            C_RES_HIPS  + ", " +
+            C_RES_IMT + ", " +
+            C_RES_HIPS_NORM + ", " +
+            C_RES_AGE + ", " +
+            " ( SELECT " + C_IMT_IMT_UPP + " FROM " + T_IMT + " WHERE " + C_IMT_IMT_DEC + " = 0 AND " + C_RES_AGE  + " BETWEEN " + C_IMT_AGE_LOW + " AND "+ C_IMT_AGE_UPP  + " ) AS " + C_RES_IMT_0 + ", " +
+            " ( SELECT " + C_IMT_IMT_UPP + " FROM " + T_IMT + " WHERE " + C_IMT_IMT_DEC + " = 1 AND " + C_RES_AGE  + " BETWEEN " + C_IMT_AGE_LOW + " AND "+ C_IMT_AGE_UPP  + " ) AS " + C_RES_IMT_1 +", " +
+            " ( SELECT " + C_IMT_IMT_UPP + " FROM " + T_IMT + " WHERE " + C_IMT_IMT_DEC + " = 2 AND " + C_RES_AGE  + " BETWEEN " + C_IMT_AGE_LOW + " AND "+ C_IMT_AGE_UPP  + " ) AS " + C_RES_IMT_2 +", " +
+            " ( SELECT " + C_IMT_IMT_UPP + " FROM " + T_IMT + " WHERE " + C_IMT_IMT_DEC + " = 3 AND " + C_RES_AGE  + " BETWEEN " + C_IMT_AGE_LOW + " AND "+ C_IMT_AGE_UPP  + " ) AS " + C_RES_IMT_3 +", " +
+            " ( SELECT " + C_IMT_IMT_UPP + " FROM " + T_IMT + " WHERE " + C_IMT_IMT_DEC + " = 4 AND " + C_RES_AGE  + " BETWEEN " + C_IMT_AGE_LOW + " AND "+ C_IMT_AGE_UPP  + " ) AS " + C_RES_IMT_4 +", " +
+            " ( SELECT " + C_IMT_IMT_UPP + " FROM " + T_IMT + " WHERE " + C_IMT_IMT_DEC + " = 5 AND " + C_RES_AGE  + " BETWEEN " + C_IMT_AGE_LOW + " AND "+ C_IMT_AGE_UPP  + " ) AS " + C_RES_IMT_5 +
+            " FROM " + V_RES
+            ;
+    //endregion results full view
 
     private static final int DATABASE_VERSION = 1;
 
@@ -181,6 +208,7 @@ public class DB  extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_IMT);
         db.execSQL(SQL_DATA_IMT);
         db.execSQL(SQL_CREATE_VRES);
+        db.execSQL(SQL_CREATE_VRES_FULL);
     }
 
     @Override

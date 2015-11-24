@@ -71,8 +71,7 @@
                 android:id="@+id/et_wg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned" />
+                android:inputType="numberDecimal" />
 
         </LinearLayout>
 
@@ -119,6 +118,46 @@
                 android:layout_height="wrap_content"
                 android:onClick="OnClickSave"
                 android:text="cancel" />
+        </LinearLayout>
+
+        <!-- результат вес -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="результат вес" />
+
+            <EditText
+                android:id="@+id/et_resw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned" />
+
+        </LinearLayout>
+
+        <!-- результат талия -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="результат талия" />
+
+            <EditText
+                android:id="@+id/et_resh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned" />
+
         </LinearLayout>
 
     </LinearLayout>
