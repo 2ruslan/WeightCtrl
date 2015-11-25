@@ -113,7 +113,7 @@ public class DB  extends SQLiteOpenHelper{
             C_RES_WEIGHT + ", " +
             C_RES_GROWTH + ", " +
             C_RES_HIPS  + ", " +
-            " ROUND( (" + C_RES_WEIGHT + " / 10) / ((" + C_RES_GROWTH + " / 100.0) *(" + C_RES_GROWTH + " / 100.0) ), 1) AS " + C_RES_IMT + ", " +
+            " ROUND( (" + C_RES_WEIGHT + " / 10.0) / ((" + C_RES_GROWTH + " / 100.0) *(" + C_RES_GROWTH + " / 100.0) ), 1) AS " + C_RES_IMT + ", " +
             C_RES_GROWTH + " / 2.0 as " + C_RES_HIPS_NORM + ", " +
             " CAST (" + C_RES_ONDATE + " - " + C_STG_BIRTHDAY + " +( CASE WHEN strftime( '%m-%d', " + C_RES_ONDATE + ") < strftime( '%m-%d', " + C_STG_BIRTHDAY + " ) THEN -1 ELSE 0 END ) AS INT)  AS " + C_RES_AGE +
             " FROM " + T_RES + ", " + T_STG

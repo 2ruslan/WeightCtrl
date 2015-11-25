@@ -143,6 +143,7 @@ public class DBHelper {
             hips = null;
             weight = null;
             birthday = null;
+            imt = null;
             imt0 = null;
             imt1 = null;
             imt2 = null;
