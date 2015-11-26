@@ -13,21 +13,26 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+import org.achartengine.GraphicalView;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-
-    TextView _crlGrowth;
 
     private Integer str2int(String val){
         Integer res = null;
@@ -36,19 +41,21 @@ public class MainActivity extends AppCompatActivity {
         return  res;
     }
 
+    //region Growth
+    TextView _crlGrowth;
     private Integer GetGrowth() {
         return  str2int(_crlGrowth.getText().toString());
     }
-
     private void SetGrowth(Integer val) {
         if(val != null)
             _crlGrowth.setText(String.valueOf(val));
         else
             _crlGrowth.setText(null);
     }
+    //endregion Growth
 
+    //region Weight
     TextView _crlWeight;
-
     private Integer GetWeight() {
         Double res = null;
         String val = _crlWeight.getText().toString();
@@ -59,14 +66,15 @@ public class MainActivity extends AppCompatActivity {
             res *=  10;
         return (int)Math.round(res);
     }
-
     private void SetWeight(Integer val) {
         if(val != null)
             _crlWeight.setText(String.valueOf(val / 10.0));
         else
             _crlWeight.setText(null);
     }
+    //endregion Weight
 
+    //region Birthday
     TextView _crlBD;
     Date _dateBD;
     private Date GetBD() {
@@ -79,7 +87,9 @@ public class MainActivity extends AppCompatActivity {
         else
             _crlBD.setText(null);
     }
+    //endregion Birthday
 
+    //region Hips
     TextView _crlHips;
     private Integer GetHips() {
         return str2int(_crlHips.getText().toString());
@@ -90,11 +100,16 @@ public class MainActivity extends AppCompatActivity {
         else
             _crlHips.setText(null);
     }
+    //endregion Hips
+
 
     SeekBar sbWeight;
 
     TextView _crlResW;
     TextView _crlResH;
+
+    private GraphicalView chartViewWeight;
+    private GraphicalView chartViewHips;
 
     private final String[] columns = new String[]{
             DB.C_RES_ONDATE,
@@ -147,6 +162,33 @@ public class MainActivity extends AppCompatActivity {
         DB.initDB(this);
         initListView();
         RefreshCurrent();
+
+        loadAdMob();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (chartViewWeight == null) {
+
+            LinearLayout layoutW = (LinearLayout) findViewById(R.id.charWeight);
+
+            chartViewWeight = ChartHelper.buildChartWeight(getBaseContext());
+            layoutW.addView(chartViewWeight, new LinearLayout.LayoutParams
+                    (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+            LinearLayout layoutH = (LinearLayout) findViewById(R.id.charHips);
+
+            chartViewHips = ChartHelper.buildChartWeight(getBaseContext());
+            layoutH.addView(chartViewHips, new LinearLayout.LayoutParams
+                    (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+        }
+     else
+        {
+            chartViewWeight.repaint();
+        }
     }
 
     private void RefreshCurrent() {
@@ -250,4 +292,15 @@ public class MainActivity extends AppCompatActivity {
     }
     /**/
 
+
+    private void loadAdMob()
+    {
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .addTestDevice("42BC762C13DEBCCD86629DD16A42C588")
+                    .addTestDevice("B346B741A6C330AE8DFEF31DFC8423FE")
+                    .build();
+        mAdView.loadAd(adRequest);
+    }
 }
