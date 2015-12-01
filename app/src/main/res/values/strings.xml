@@ -2,5 +2,8 @@
     <string name="app_name">weightCtrl</string>
 
 
+    <color name="text_color">#31D1F1</color>
+    <color name="white">#ffffff</color>
+
     <string name="banner_ad_statistics">ca-app-pub-8661051886416365/8091278539</string>
 </resources>
