@@ -6,4 +6,7 @@
     <color name="white">#ffffff</color>
 
     <string name="banner_ad_statistics">ca-app-pub-8661051886416365/8091278539</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

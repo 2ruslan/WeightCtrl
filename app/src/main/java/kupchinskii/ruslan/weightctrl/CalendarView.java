@@ -109,7 +109,6 @@ public class CalendarView extends Activity {
     }
 
     public Runnable calendarUpdater = new Runnable() {
-
         @Override
         public void run() {
             items.clear();
