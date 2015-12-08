@@ -185,37 +185,18 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dip"
             android:orientation="horizontal">
 
+          <GridView
+              android:id="@+id/gvCalendar"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:numColumns="7"
+              >
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                >
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_name"
-                    />
-                <DatePicker android:id="@+id/datePicker1" android:layout_width="wrap_content" android:layout_height="wrap_content"></DatePicker>
-                <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/accept"
-                    android:id="@+id/openButton"></Button>
+          </GridView>
 
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-                <fragment android:name="kupchinskii.ruslan.weightctrl.AppCalendar"
-                    android:id="@+id/headlines_fragment"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent" />
         </LinearLayout>
 
         <!-- график вес -->

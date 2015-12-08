@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 
 import android.widget.DatePicker;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -173,39 +174,16 @@ public class MainActivity extends AppCompatActivity {
 
         loadAdMob();
 
-        /**/
-        Button openButton = (Button)findViewById(R.id.openButton);
 
-
-        openButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                DatePicker dp = (DatePicker) findViewById(R.id.datePicker1);
-                Intent intent = new Intent(v.getContext(), CalendarView.class);
-
-                intent.putExtra("date", dp.getYear() + "-" + dp.getMonth() + "-" + dp.getDayOfMonth());
-                startActivityForResult(intent, PICK_DATE_REQUEST);
-            }
-        });
+        /***/
+        final GridView g = (GridView) findViewById(R.id.gvCalendar);
+        CalendarAdapter mAdapter = new CalendarAdapter(getApplicationContext(),
+                android.R.layout.simple_list_item_1);
+        g.setAdapter(mAdapter);
         /**/
 
     }
 
-    /**/
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_DATE_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(getApplicationContext(), data.getStringExtra("date"), Toast.LENGTH_SHORT).show();
-                String[] dateArr = data.getStringExtra("date").split("-");
-                DatePicker dp = (DatePicker)findViewById(R.id.datePicker1);
-                dp.updateDate(Integer.parseInt(dateArr[0]), Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[2]));
-            }
-        }
-    }
-    /**/
 
     @Override
     protected void onResume() {
