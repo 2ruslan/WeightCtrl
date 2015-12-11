@@ -9,11 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
@@ -29,38 +32,36 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
         initMonth(year, month);
     }
 
+    public static int getDayOfWeek(int year, int month, int day) {
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, day);
+        int dow = c.get(Calendar.DAY_OF_WEEK);
+        return dow;
+    }
+
     private void initMonth(int year, int month){
-        GregorianCalendar bday = new GregorianCalendar(year, month, 1);
 
-        int dayCount = bday.getActualMaximum(Calendar.DAY_OF_MONTH);
-        int firstDay = bday.getFirstDayOfWeek();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month - 1, 1);
+        int dayCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int firstDayWeek = calendar.getFirstDayOfWeek();
+        int dayMonth = calendar.get(Calendar.DAY_OF_WEEK);
 
-        for(int i = 0; i < firstDay;i++)
-        {
-            CalendarItem ni = new CalendarItem();
-            ni.day = "";
-            ni.hips = "";
-            ni.weight = "";
-            Items.add(ni);
-        }
 
-        for(int i = 0; i<dayCount;i++)
-        {
-            CalendarItem ni = new CalendarItem();
-            ni.day = String.valueOf(i);
-            ni.hips = "";
-            ni.weight = "";
-            Items.add( ni);
-        }
+        String[] shortWeekDays = DateFormatSymbols.getInstance(Locale.getDefault()).getShortWeekdays();
 
-        for(int i = firstDay + dayCount; i < 35;i++)
-        {
-            CalendarItem ni = new CalendarItem();
-            ni.day = "";
-            ni.hips = "";
-            ni.weight = "";
-            Items.add( ni);
-        }
+
+
+         for(int i= firstDayWeek; i <= 7; i++)
+            Items.add(new CalendarItem(shortWeekDays[i], "", ""));
+         for(int i= 1; i <= firstDayWeek - 1; i++)
+             Items.add(new CalendarItem(shortWeekDays[i], "", ""));
+
+         for(int i = 0; i < dayMonth - firstDayWeek;i++)
+             Items.add(new CalendarItem());
+
+         for(int i = 1; i<=dayCount;i++)
+                Items.add(new CalendarItem(String.valueOf(i), "", ""));
 
     }
 

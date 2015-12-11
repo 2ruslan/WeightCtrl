@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
         /***/
         final GridView g = (GridView) findViewById(R.id.gvCalendar);
-        CalendarAdapter mAdapter = new CalendarAdapter(getApplicationContext(),R.layout.item_calendar, 2015, 12);
+        CalendarAdapter mAdapter = new CalendarAdapter(getApplicationContext(),R.layout.item_calendar, 2015, 10);
         g.setAdapter(mAdapter);
         /**/
 
