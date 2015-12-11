@@ -9,35 +9,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-public class CalendarAdapter extends ArrayAdapter<String> {
+public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
-    private static class item{
-        public  item()
-        {
-            day = "";
-            weight = "";
-            hips = "";
-        }
-        String day;
-        String weight;
-        String hips;
-    }
 
-    private static item[] Items = new item[35];
-
-    private static final String[] mContacts = { "Рыжик", "Барсик", "Мурзик",
-            "Мурка", "Васька", "Полосатик", "Матроскин", "Лизка", "Томосина",
-            "Бегемот", "Чеширский", "Дивуар", "Тигра", "Лаура" };
+    private static List<CalendarItem> Items = new ArrayList<CalendarItem>();
 
     Context mContext;
 
     // Конструктор
     public CalendarAdapter(Context context, int textViewResourceId, int year, int month) {
-        super(context, textViewResourceId, mContacts);
+        super(context, textViewResourceId, Items);
         this.mContext = context;
         initMonth(year, month);
     }
@@ -50,29 +37,29 @@ public class CalendarAdapter extends ArrayAdapter<String> {
 
         for(int i = 0; i < firstDay;i++)
         {
-            item ni = new item();
+            CalendarItem ni = new CalendarItem();
             ni.day = "";
             ni.hips = "";
             ni.weight = "";
-            Items[i] = ni;
+            Items.add(ni);
         }
 
         for(int i = 0; i<dayCount;i++)
         {
-            item ni = new item();
+            CalendarItem ni = new CalendarItem();
             ni.day = String.valueOf(i);
             ni.hips = "";
             ni.weight = "";
-            Items[firstDay + i] = ni;
+            Items.add( ni);
         }
 
         for(int i = firstDay + dayCount; i < 35;i++)
         {
-            item ni = new item();
+            CalendarItem ni = new CalendarItem();
             ni.day = "";
             ni.hips = "";
             ni.weight = "";
-            Items[i] = ni;
+            Items.add( ni);
         }
 
     }
@@ -96,9 +83,7 @@ public class CalendarAdapter extends ArrayAdapter<String> {
             TextView day = (TextView) gridView
                     .findViewById(R.id.ic_day);
 
-            day.setText(Items[position].day);
-
-
+            day.setText(Items.get(position).day);
 
         } else {
             gridView = (View) convertView;
@@ -108,8 +93,8 @@ public class CalendarAdapter extends ArrayAdapter<String> {
     }
 
     // возвращает содержимое выделенного элемента списка
-    public String getItem(int position) {
-        return mContacts[position];
+    public CalendarItem getItem(int position) {
+        return Items.get(position);
     }
 
 }
