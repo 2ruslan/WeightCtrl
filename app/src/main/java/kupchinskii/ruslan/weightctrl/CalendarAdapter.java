@@ -61,7 +61,7 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
              Items.add(new CalendarItem());
 
          for(int i = 1; i<=dayCount;i++)
-                Items.add(new CalendarItem(String.valueOf(i), "", ""));
+                Items.add(new CalendarItem(String.valueOf(i), "105.7", "(104)"));
 
     }
 
@@ -85,6 +85,17 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
                     .findViewById(R.id.ic_day);
 
             day.setText(Items.get(position).day);
+
+            TextView wgt = (TextView) gridView
+                    .findViewById(R.id.ic_weight);
+
+            wgt.setText(Items.get(position).weight);
+
+            TextView hps = (TextView) gridView
+                    .findViewById(R.id.ic_hips);
+
+            hps.setText(Items.get(position).hips);
+
 
         } else {
             gridView = (View) convertView;
