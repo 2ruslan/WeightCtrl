@@ -7,13 +7,13 @@
 
     <TextView
         android:id="@+id/ic_day"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="10sp"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
@@ -21,13 +21,15 @@
             <TextView
                 android:id="@+id/ic_weight"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="0dp"
                 android:textSize="6sp"/>
 
             <TextView
                 android:id="@+id/ic_hips"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="0dp"
                 android:textSize="6sp"/>
      </LinearLayout>
 
