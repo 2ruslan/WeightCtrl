@@ -60,8 +60,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
          for(int i = 0; i < dayMonth - firstDayWeek;i++)
              Items.add(new CalendarItem());
 
-         for(int i = 1; i<=dayCount;i++)
-                Items.add(new CalendarItem(String.valueOf(i), "105.7", "(104)"));
+         for(int i = 1; i<=dayCount;i++) {
+             Items.add(new CalendarItem( (i > 9 ? "" : " " ) + String.valueOf(i), "105.7", "(104)"));
+         }
 
     }
 
