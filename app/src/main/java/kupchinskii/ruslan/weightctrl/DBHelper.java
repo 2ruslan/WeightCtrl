@@ -87,6 +87,16 @@ public class DBHelper {
                 , null, null, null, null, null);
     }
 
+    public static Cursor GetReusults(int year, int month)
+    {
+        SQLiteDatabase db = DB.getDBRead();
+        return  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
+                , DB.C_RES_GROWTH, DB.C_RES_HIPS,
+        }
+                , DB.C_RES_ONDATE + " BETWEEN ? AND ? "
+                , new String[]{String.valueOf(year), String.valueOf(month)}, null, null, null);
+    }
+
     public static result GetReusultLast()
     {
         Cursor cursor = null;
