@@ -16,86 +16,105 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <!-- дата рождения -->
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="др" />
-
-            <EditText
-                android:id="@+id/et_bd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:cursorVisible="false"
-                android:inputType="date"
-                android:onClick="OnClickBirthday" />
-
-        </LinearLayout>
-
-        <!-- рост -->
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="рост" />
-
-            <EditText
-                android:id="@+id/et_gh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned" />
-        </LinearLayout>
-
-        <!-- вес -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            >
+            <!-- дата рождения -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="2"
                 android:layout_height="wrap_content"
-                android:text="вес" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/et_wg"
-                android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_birthday" />
+
+                <EditText
+                    android:id="@+id/et_bd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:cursorVisible="false"
+                    android:inputType="date"
+                    android:onClick="OnClickBirthday" />
+
+            </LinearLayout>
+
+            <!-- рост -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_growth" />
 
-        <!-- талия -->
+                <EditText
+                    android:id="@+id/et_gh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+       </LinearLayout>
+
+
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            >
+            <!-- вес -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="талия" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/et_hp"
-                android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_weight" />
+
+                <EditText
+                    android:id="@+id/et_wg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+
+            </LinearLayout>
+
+            <!-- талия -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned" />
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_hips" />
+
+                <EditText
+                    android:id="@+id/et_hp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="numberSigned" />
+
+            </LinearLayout>
         </LinearLayout>
+
+
 
         <!-- кнопки -->
         <LinearLayout
@@ -107,19 +126,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="OnClickSave"
-                android:text="save" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="OnClickSave"
                 android:text="delete" />
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:onClick="OnClickSave"
-                android:text="cancel" />
+                android:text="save" />
+
         </LinearLayout>
 
         <!-- результат вес -->
@@ -172,26 +187,39 @@
             android:layout_height="40dp" />
     </LinearLayout>
 
+        <!-- календарь -->
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ListView
-                android:id="@+id/lv_results"
-                android:layout_width="fill_parent"
-                android:layout_weight="1"
-                android:layout_height="150dip" />
-        </LinearLayout>
+            android:layout_height="420dp"
+            android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="300dip"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="OnClickPrevMonth"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="OnClickNextMonth"
+                />
+        </LinearLayout>
 
           <GridView
               android:id="@+id/gvCalendar"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:verticalSpacing="4dp"
               android:horizontalSpacing="4dp"
               android:numColumns="7"

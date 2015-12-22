@@ -20,7 +20,8 @@ import java.util.Locale;
 
 public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
-
+    int Year;
+    int Month;
     private static List<CalendarItem> Items = new ArrayList<CalendarItem>();
 
     Context mContext;
@@ -41,16 +42,17 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
     private void initMonth(int year, int month){
 
+        Year = year;
+        Month = month;
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month - 1, 1);
         int dayCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         int firstDayWeek = calendar.getFirstDayOfWeek();
         int dayMonth = calendar.get(Calendar.DAY_OF_WEEK);
 
-
         String[] shortWeekDays = DateFormatSymbols.getInstance(Locale.getDefault()).getShortWeekdays();
 
-
+        Items.clear();
 
          for(int i= firstDayWeek; i <= 7; i++)
             Items.add(new CalendarItem(shortWeekDays[i], "", ""));
@@ -64,6 +66,7 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
              Items.add(new CalendarItem( (i > 9 ? "" : " " ) + String.valueOf(i), "105.7", "(104)"));
          }
 
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -109,5 +112,15 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
     public CalendarItem getItem(int position) {
         return Items.get(position);
     }
+
+    public void NexMonth(){
+        initMonth(Year, ++Month);
+    }
+
+    public void PrevMonth(){
+        initMonth(Year, --Month);
+    }
+
+
 
 }

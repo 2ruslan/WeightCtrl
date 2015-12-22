@@ -117,24 +117,10 @@ public class MainActivity extends AppCompatActivity {
     private GraphicalView chartViewWeight;
     private GraphicalView chartViewHips;
 
-    private final String[] columns = new String[]{
-            DB.C_RES_ONDATE,
-            DB.C_RES_WEIGHT
-    };
 
-    private final int[] to = new int[]{
-            R.id.lrv_ondate,
-            R.id.lrv_weight
-    };
+    CalendarAdapter calendarAdapter;
 
-    String idMes;
-    String nameMes;
-    ListView listView;
-    Cursor cursor;
     private SimpleCursorAdapter dataAdapter;
-
-    static final int DATE_DIALOG_ID = 0;
-    static final int PICK_DATE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,8 +136,6 @@ public class MainActivity extends AppCompatActivity {
         _crlResH = (TextView) findViewById(R.id.et_resh);
 
         sbWeight = (SeekBar) findViewById(R.id.sb_weight);
-
-        listView = (ListView) findViewById(R.id.lv_results);
 
         /**/
 /*
@@ -169,20 +153,34 @@ public class MainActivity extends AppCompatActivity {
 
 
         DB.initDB(this);
-        initListView();
+
         RefreshCurrent();
 
         loadAdMob();
 
-
-        /***/
-        final GridView g = (GridView) findViewById(R.id.gvCalendar);
-        CalendarAdapter mAdapter = new CalendarAdapter(getApplicationContext(),R.layout.item_calendar, 2015, 10);
-        g.setAdapter(mAdapter);
-        /**/
-
+        initCalendar();
     }
 
+    //region calendar
+    GridView g;
+    private void initCalendar()
+    {
+        g = (GridView) findViewById(R.id.gvCalendar);
+        calendarAdapter = new CalendarAdapter(getApplicationContext(),R.layout.item_calendar, 2015, 10);
+        g.setAdapter(calendarAdapter);
+        g.invalidate();
+    }
+
+    public void OnClickNextMonth(View view){
+        calendarAdapter.NexMonth();
+    }
+
+    public void OnClickPrevMonth(View view){
+        calendarAdapter.PrevMonth();
+        g.invalidateViews();
+    }
+
+    //endregion calendar
 
     @Override
     protected void onResume() {
@@ -274,44 +272,6 @@ public class MainActivity extends AppCompatActivity {
 
         alert.show();
     };
-
-
-
-    /**/
-    private void refreshListView() {
-        cursor = DBHelper.GetReusultsAll();
-        dataAdapter.changeCursor(cursor);
-    }
-
-    private void initListView() {
-
-        cursor = DBHelper.GetReusultsAll();
-
-        dataAdapter = new SimpleCursorAdapter(
-                this, R.layout.list_results_val,
-                cursor,
-                columns,
-                to,
-                0);
-
-        listView.setAdapter(dataAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> listView, View view,
-                                    int position, long id) {
-                Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-                /*
-                OpenEditor(
-                        cursor.getString(cursor.getColumnIndexOrThrow(DB.COLUMN_VALUES_EXID))
-                        , cursor.getString(cursor.getColumnIndexOrThrow(DB.COLUMN_VALUES_ID))
-                        , cursor.getString(cursor.getColumnIndexOrThrow(DB.COLUMN_VALUES_CNT_REAL))
-                );*/
-            }
-        });
-    }
-    /**/
-
 
     private void loadAdMob()
     {
