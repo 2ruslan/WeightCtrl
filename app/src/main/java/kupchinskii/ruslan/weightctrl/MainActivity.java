@@ -166,18 +166,24 @@ public class MainActivity extends AppCompatActivity {
     private void initCalendar()
     {
         g = (GridView) findViewById(R.id.gvCalendar);
-        calendarAdapter = new CalendarAdapter(getApplicationContext(),R.layout.item_calendar, 2015, 10);
+        calendarAdapter = new CalendarAdapter(getApplicationContext(),R.layout.item_calendar, 2015, 11);
         g.setAdapter(calendarAdapter);
-        g.invalidate();
+        initMonthName();
     }
 
     public void OnClickNextMonth(View view){
         calendarAdapter.NexMonth();
+        initMonthName();
     }
 
     public void OnClickPrevMonth(View view){
         calendarAdapter.PrevMonth();
-        g.invalidateViews();
+        initMonthName();
+    }
+
+    private void initMonthName(){
+        TextView tm = (TextView)findViewById(R.id.monthName);
+        tm.setText(calendarAdapter.getMonthName());
     }
 
     //endregion calendar

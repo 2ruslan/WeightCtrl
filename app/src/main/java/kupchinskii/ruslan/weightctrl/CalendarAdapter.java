@@ -17,14 +17,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.text.DateFormatSymbols;
 
 public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
-    int Year;
-    int Month;
+    static int Year;
+    static int Month;
     private static List<CalendarItem> Items = new ArrayList<CalendarItem>();
 
     Context mContext;
+
+    static public String getMonthName(){
+        return  new DateFormatSymbols().getMonths()[Month] + ", " + String.valueOf(Year);
+    }
+
 
     // Конструктор
     public CalendarAdapter(Context context, int textViewResourceId, int year, int month) {
@@ -33,19 +39,13 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
         initMonth(year, month);
     }
 
-    public static int getDayOfWeek(int year, int month, int day) {
-        Calendar c = Calendar.getInstance();
-        c.set(year, month, day);
-        int dow = c.get(Calendar.DAY_OF_WEEK);
-        return dow;
-    }
-
+    boolean isInit = false;
     private void initMonth(int year, int month){
 
         Year = year;
         Month = month;
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month - 1, 1);
+        calendar.set(year, month, 1);
         int dayCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         int firstDayWeek = calendar.getFirstDayOfWeek();
         int dayMonth = calendar.get(Calendar.DAY_OF_WEEK);
@@ -59,12 +59,15 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
          for(int i= 1; i <= firstDayWeek - 1; i++)
              Items.add(new CalendarItem(shortWeekDays[i], "", ""));
 
-         for(int i = 0; i < dayMonth - firstDayWeek;i++)
+         for(int i = 0; i < dayMonth;i++)
+             Items.add(new CalendarItem());
+         if(dayMonth !=2)
              Items.add(new CalendarItem());
 
          for(int i = 1; i<=dayCount;i++) {
              Items.add(new CalendarItem( (i > 9 ? "" : " " ) + String.valueOf(i), "105.7", "(104)"));
          }
+        isInit = false;
 
         this.notifyDataSetChanged();
     }
@@ -77,14 +80,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
         View gridView;
 
-        if (convertView == null) {
-
-            gridView = new View(mContext);
-
-            // get layout from mobile.xml
+        if (!isInit) {
             gridView = inflater.inflate(R.layout.item_calendar, null);
 
-            // set image based on selected text
             TextView day = (TextView) gridView
                     .findViewById(R.id.ic_day);
 
@@ -105,6 +103,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
             gridView = (View) convertView;
         }
 
+        if (Items.size() == position)
+            isInit = true;
+
         return gridView;
     }
 
@@ -114,11 +115,21 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
     }
 
     public void NexMonth(){
-        initMonth(Year, ++Month);
+        if(++Month > 11)
+        {
+            Year++;
+            Month = 0;
+        }
+        initMonth(Year, Month);
     }
 
     public void PrevMonth(){
-        initMonth(Year, --Month);
+        if(--Month < 0)
+        {
+            Year--;
+            Month = 11;
+        }
+        initMonth(Year, Month);
     }
 
 
