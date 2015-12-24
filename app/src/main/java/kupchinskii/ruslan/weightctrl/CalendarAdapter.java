@@ -1,6 +1,7 @@
 package kupchinskii.ruslan.weightctrl;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.text.format.DateUtils;
 import android.text.style.TtsSpan;
 import android.view.LayoutInflater;
@@ -28,9 +29,8 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
     Context mContext;
 
     static public String getMonthName(){
-        return  new DateFormatSymbols().getMonths()[Month] + ", " + String.valueOf(Year);
+        return (String)android.text.format.DateFormat.format("MMMM", Month) + ", " + String.valueOf(Year);
     }
-
 
     // Конструктор
     public CalendarAdapter(Context context, int textViewResourceId, int year, int month) {
@@ -54,19 +54,35 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
         Items.clear();
 
-         for(int i= firstDayWeek; i <= 7; i++)
+        for(int i= firstDayWeek; i <= 7; i++)
             Items.add(new CalendarItem(shortWeekDays[i], "", ""));
-         for(int i= 1; i <= firstDayWeek - 1; i++)
+        for(int i= 1; i <= firstDayWeek - 1; i++)
              Items.add(new CalendarItem(shortWeekDays[i], "", ""));
 
-         for(int i = 0; i < dayMonth;i++)
-             Items.add(new CalendarItem());
-         if(dayMonth !=2)
+        int emptyDays = dayMonth - (firstDayWeek != 1 ? 2 : 1);
+        if (emptyDays < 0)
+            emptyDays = 7 + emptyDays;
+        for(int i = 1; i <= emptyDays; i++)
              Items.add(new CalendarItem());
 
-         for(int i = 1; i<=dayCount;i++) {
-             Items.add(new CalendarItem( (i > 9 ? "" : " " ) + String.valueOf(i), "105.7", "(104)"));
-         }
+        int offset = Items.size();
+        for(int i = 1; i<=dayCount;i++)
+             Items.add(new CalendarItem( (i > 9 ? "" : " " ) + String.valueOf(i), "", ""));
+
+        Cursor crr =  DBHelper.GetReusults(Year, Month);
+        crr.moveToFirst();
+        for (int i = 0; i < crr.getCount(); i++) {
+            int hips = crr.getInt(crr.getColumnIndex(DB.C_RES_HIPS));
+            float weight = crr.getFloat(crr.getColumnIndex(DB.C_RES_WEIGHT));
+            Date onDate = DB.getData(crr.getString(crr.getColumnIndex(DB.C_RES_ONDATE)));
+            calendar.setTime(onDate);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            Items.get(day+offset).hips = "(" + String.valueOf(hips) + ")";
+            Items.get(day+offset).weight = String.format("%s",weight);
+
+            crr.moveToNext();
+        }
+
         isInit = false;
 
         this.notifyDataSetChanged();

@@ -81,7 +81,8 @@ public class DBHelper {
     public static Cursor GetReusultsAll()
     {
         SQLiteDatabase db = DB.getDBRead();
-        return  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
+        return  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE
+                , DB.C_RES_WEIGHT + " / 10.0 AS " + DB.C_RES_WEIGHT
                 , DB.C_RES_GROWTH, DB.C_RES_HIPS,
                 }
                 , null, null, null, null, null);
@@ -89,12 +90,20 @@ public class DBHelper {
 
     public static Cursor GetReusults(int year, int month)
     {
+
+        Calendar cStart = Calendar.getInstance();
+        cStart.set(year, month, 1);
+
+        Calendar cEnd = Calendar.getInstance();
+        cEnd.set(year, month + 1, -1);
+
+
         SQLiteDatabase db = DB.getDBRead();
-        return  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
-                , DB.C_RES_GROWTH, DB.C_RES_HIPS,
-        }
+        return  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE
+                , DB.C_RES_WEIGHT + " / 10.0 AS " + DB.C_RES_WEIGHT
+                , DB.C_RES_GROWTH, DB.C_RES_HIPS }
                 , DB.C_RES_ONDATE + " BETWEEN ? AND ? "
-                , new String[]{String.valueOf(year), String.valueOf(month)}, null, null, null);
+                , new String[]{DB.getDataStr(cStart.getTime()), DB.getDataStr(cEnd.getTime())}, null, null, DB.C_RES_ONDATE);
     }
 
     public static result GetReusultLast()

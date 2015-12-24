@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorCalendarDay">#000000</color>
+    <color name="colorCalendarWeight">#4C5866</color>
+    <color name="colorCalendarHips">#423189</color>
 </resources>
