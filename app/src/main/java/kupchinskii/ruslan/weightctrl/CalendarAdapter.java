@@ -29,7 +29,7 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
     Context mContext;
 
     static public String getMonthName(){
-        return (String)android.text.format.DateFormat.format("MMMM", Month) + ", " + String.valueOf(Year);
+        return (String)android.text.format.DateFormat.format("LLLL", Month) + ", " + String.valueOf(Year);
     }
 
     // Конструктор
