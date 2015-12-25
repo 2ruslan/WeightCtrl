@@ -10,6 +10,19 @@
     <string name="title_weight">Weight</string>
     <string name="title_hips">Hips</string>
     
+    <string name="title_january">January</string>
+    <string name="title_february">February</string>
+    <string name="title_march">March</string>
+    <string name="title_april">April</string>
+    <string name="title_may">May</string>
+    <string name="title_june">June</string>
+    <string name="title_july">July</string>
+    <string name="title_august">August</string>
+    <string name="title_september">September</string>
+    <string name="title_october">October</string>
+    <string name="title_november">November</string>
+    <string name="title_december">December</string>
+    
     <string name="banner_ad_statistics">ca-app-pub-8661051886416365/8091278539</string>
 
 </resources>
