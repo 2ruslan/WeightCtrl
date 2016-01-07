@@ -2,12 +2,14 @@ package kupchinskii.ruslan.weightctrl;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.text.style.TtsSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DateFormatSymbols;
@@ -24,19 +26,20 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
     static int Year;
     static int Month;
+    static Calendar calendar;
     private static List<CalendarItem> Items = new ArrayList<CalendarItem>();
 
     Context mContext;
 
     static public String getMonthName(){
-        return (String)android.text.format.DateFormat.format("LLLL", Month) + ", " + String.valueOf(Year);
+        return (String)android.text.format.DateFormat.format("LLLL", calendar ) + ", " + String.valueOf(Year);
     }
 
     // Конструктор
-    public CalendarAdapter(Context context, int textViewResourceId, int year, int month) {
+    public CalendarAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId, Items);
         this.mContext = context;
-        initMonth(year, month);
+        initMonth(Calendar.getInstance().get(Calendar.YEAR) , Calendar.getInstance().get(Calendar.MONTH));
     }
 
     boolean isInit = false;
@@ -44,7 +47,7 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
         Year = year;
         Month = month;
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         calendar.set(year, month, 1);
         int dayCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         int firstDayWeek = calendar.getFirstDayOfWeek();
@@ -55,9 +58,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
         Items.clear();
 
         for(int i= firstDayWeek; i <= 7; i++)
-            Items.add(new CalendarItem(shortWeekDays[i], "", ""));
+            Items.add(new CalendarItem(shortWeekDays[i], "", "", false));
         for(int i= 1; i <= firstDayWeek - 1; i++)
-             Items.add(new CalendarItem(shortWeekDays[i], "", ""));
+             Items.add(new CalendarItem(shortWeekDays[i], "", "", false));
 
         int emptyDays = dayMonth - (firstDayWeek != 1 ? 2 : 1);
         if (emptyDays < 0)
@@ -65,9 +68,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
         for(int i = 1; i <= emptyDays; i++)
              Items.add(new CalendarItem());
 
-        int offset = Items.size();
+        int offset = Items.size() - 1;
         for(int i = 1; i<=dayCount;i++)
-             Items.add(new CalendarItem( (i > 9 ? "" : " " ) + String.valueOf(i), "", ""));
+             Items.add(new CalendarItem( (i > 9 ? "" : " " ) + String.valueOf(i), "", "", true));
 
         Cursor crr =  DBHelper.GetReusults(Year, Month);
         crr.moveToFirst();
@@ -98,6 +101,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
         if (!isInit) {
             gridView = inflater.inflate(R.layout.item_calendar, null);
+
+            if (!Items.get(position).isDay)
+                gridView.setBackground( getContext().getResources().getDrawable(R.drawable.calendar_item_background_empty));
 
             TextView day = (TextView) gridView
                     .findViewById(R.id.ic_day);

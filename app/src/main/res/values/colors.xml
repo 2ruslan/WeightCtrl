@@ -3,8 +3,17 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="text_color">#31D1F1</color>
+    <color name="white">#ffffff</color>
 
     <color name="colorCalendarDay">#000000</color>
-    <color name="colorCalendarWeight">#4C5866</color>
-    <color name="colorCalendarHips">#423189</color>
+
+    <color name="colorCalendarWeight">#49dab9</color>
+    <color name="colorCalendarHips">#49dab9</color>
+    <color name="colorTransparent">#00000000</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorSilver">#505d66</color>
+
+    <color name="mainBackground">#1e2c37</color>
 </resources>

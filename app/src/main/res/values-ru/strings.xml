@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Контроль веса</string>
+
+    <string name="title_ok">Да</string>
+    <string name="title_cancel">Отмена</string>
+    <string name="title_save">Сохранить</string>
+
+    <string name="title_birthday">День рождения</string>
+    <string name="title_growth">Рост(см)</string>
+    <string name="title_weight">Вес(кг)</string>
+    <string name="title_hips">Талия(см)</string>
+
+    <string name="title_prev">\u003c</string>
+    <string name="title_next">\u003e</string>
+
+        <string name="res_html">
+<![CDATA[
+<p>Твой <a href="https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D0%B4%D0%B5%D0%BA%D1%81_%D0%BC%D0%B0%D1%81%D1%81%D1%8B_%D1%82%D0%B5%D0%BB%D0%B0">индекс массы тела</a> = {0}, норма от 18.5 до 25.
+Объем талии = {3}, норма около {4}, максимум 102.</p>
+]]>
+</string>
+
+</resources>

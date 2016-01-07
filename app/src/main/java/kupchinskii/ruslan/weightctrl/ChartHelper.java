@@ -18,11 +18,11 @@ import java.text.NumberFormat;
 public  class ChartHelper {
      public static GraphicalView buildChartWeight(Context context) {
          Cursor crr =  DBHelper.GetReusultsAll() ;
-         return getChartBase(context, crr, Color.GREEN, DB.C_RES_WEIGHT );
+         return getChartBase(context, crr, context.getResources().getColor(R.color.colorCalendarWeight), DB.C_RES_WEIGHT, context.getString(R.string.title_weight));
      }
     public static GraphicalView buildChartHips(Context context) {
         Cursor crr =  DBHelper.GetReusultsAll() ;
-        return getChartBase(context, crr, Color.BLUE, DB.C_RES_HIPS );
+        return getChartBase(context, crr, context.getResources().getColor(R.color.colorCalendarWeight), DB.C_RES_HIPS, context.getString( R.string.title_hips) );
     }
 
     private static XYSeriesRenderer getDefRender(int color) {
@@ -32,14 +32,14 @@ public  class ChartHelper {
         XYSeriesRenderer sRenderer = new XYSeriesRenderer();
         sRenderer.setDisplayChartValues(true);
         sRenderer.setChartValuesFormat(format);
-        sRenderer.setLineWidth((float) .2);
+        sRenderer.setLineWidth((float) 2);
         sRenderer.setChartValuesTextSize(16);
         sRenderer.setChartValuesTextAlign(Paint.Align.RIGHT);
 
 
-        XYSeriesRenderer.FillOutsideLine fill = new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.BOUNDS_ALL);
-        fill.setColor(Color.LTGRAY);
-        sRenderer.addFillOutsideLine(fill);
+        //XYSeriesRenderer.FillOutsideLine fill = new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.BOUNDS_ALL);
+       // fill.setColor(Color.LTGRAY);
+        //sRenderer.addFillOutsideLine(fill);
         sRenderer.setColor(color);
         return sRenderer;
     }
@@ -47,17 +47,24 @@ public  class ChartHelper {
     private static XYMultipleSeriesRenderer getMultiRender(String chartName) {
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
 
-        multiRenderer.setXLabels(0);
-        multiRenderer.setYLabelsAngle(-90);
+       // multiRenderer.setXLabels(0);
+        //multiRenderer.setYLabelsAngle(-90);
 
-        multiRenderer.setBarSpacing(2);
+      //  multiRenderer.setBarSpacing(2);
 
-        multiRenderer.setShowGrid(false);
         multiRenderer.setChartTitle(chartName);
         multiRenderer.setChartTitleTextSize(18);
 
-        multiRenderer.setYLabelsAlign(Paint.Align.RIGHT);
-        multiRenderer.setLabelsTextSize(18);
+        //multiRenderer.setYLabelsAlign(Paint.Align.RIGHT);
+        //multiRenderer.setLabelsTextSize(18);
+
+
+        multiRenderer.setShowGrid(true);
+        multiRenderer.setApplyBackgroundColor(true);
+        multiRenderer.setBackgroundColor(Color.argb(0x00, 0x01, 0x01, 0x01));
+        multiRenderer.setMarginsColor(Color.argb(0x00, 0x01, 0x01, 0x01));
+
+
 
         multiRenderer.setShowLegend(false);
         multiRenderer.setClickEnabled(false);
@@ -68,21 +75,18 @@ public  class ChartHelper {
     }
 
     private static GraphicalView getChartBase(Context context, Cursor crr
-            , int color, String colName) {
+            , int color, String colName, String chartName) {
         crr.moveToFirst();
 
         XYSeries viewsSeries = new XYSeries("Views");
         XYSeriesRenderer sRenderer = getDefRender(color);
-        XYMultipleSeriesRenderer multiRenderer = getMultiRender( "вес" /*context.getString(chartname)*/);
-
+        XYMultipleSeriesRenderer multiRenderer = getMultiRender( chartName );
 
         long xmax = 0;
-        float ymin = 0, ymax = 0;
+        float ymin = 99999, ymax = 0;
 
         for (int i = 0; i < crr.getCount(); i++) {
             float yval = crr.getFloat(crr.getColumnIndex(colName));
-            if(colName == DB.C_RES_WEIGHT)
-                yval /= 10;
 
             int xval = i + 1;
 
@@ -98,16 +102,21 @@ public  class ChartHelper {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         dataset.addSeries(viewsSeries);
 
-        multiRenderer.setYAxisMin(ymin);
-        multiRenderer.setYAxisMax(ymax + (ymax * 0.1));
+        float deltay = (ymax - ymin) / 10;
+        multiRenderer.setYAxisMin(ymin - deltay);
+        multiRenderer.setYAxisMax(ymax + deltay);
 
         multiRenderer.setXAxisMax(xmax);
-        multiRenderer.setXAxisMin(xmax > 7 ? xmax - 6 : 0);
-
-        multiRenderer.setBarWidth(46);
+        multiRenderer.setXAxisMin(xmax > 20 ? xmax - 19 : 0);
 
         multiRenderer.addSeriesRenderer(sRenderer);
 
-        return ChartFactory.getBarChartView(context, dataset, multiRenderer, BarChart.Type.DEFAULT);
+        multiRenderer.setShowAxes(false);
+        multiRenderer.setShowGridX(true);
+        multiRenderer.setShowGridY(false);
+        multiRenderer.clearXTextLabels();
+        multiRenderer.setXLabels(0);
+
+        return ChartFactory.getLineChartView (context,dataset,multiRenderer);
     }
 }

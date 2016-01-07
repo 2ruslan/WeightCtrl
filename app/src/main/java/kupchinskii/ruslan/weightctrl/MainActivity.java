@@ -1,5 +1,6 @@
 package kupchinskii.ruslan.weightctrl;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -13,6 +14,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,9 +30,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import org.achartengine.GraphicalView;
 
 import java.text.DateFormat;
@@ -38,7 +38,7 @@ import java.util.Date;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private Integer str2int(String val){
         Integer res = null;
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     //endregion Hips
 
 
-    SeekBar sbWeight;
+  //  SeekBar sbWeight;
 
     TextView _crlResW;
     TextView _crlResH;
@@ -117,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
     private GraphicalView chartViewWeight;
     private GraphicalView chartViewHips;
 
+    LinearLayout layoutW;
+    LinearLayout layoutH;
 
     CalendarAdapter calendarAdapter;
 
@@ -135,38 +137,26 @@ public class MainActivity extends AppCompatActivity {
         _crlResW = (TextView) findViewById(R.id.et_resw);
         _crlResH = (TextView) findViewById(R.id.et_resh);
 
-        sbWeight = (SeekBar) findViewById(R.id.sb_weight);
-
-        /**/
-/*
-        seekbar.setThumb(new BitmapDrawable(BitmapFactory.decodeResource(
-                context.getResources(), R.drawable.seekbar_progress_thumb)));
-
-        ShapeDrawable thumb = new ShapeDrawable(new RectShape());
-        thumb.getPaint().setColor(Color.rgb(0, 0, 0));
-        thumb.setIntrinsicHeight(-80);
-        thumb.setIntrinsicWidth(30);
-        sbWeight.setThumb(thumb);
-        */
-
-        /**/
-
+        layoutW = (LinearLayout) findViewById(R.id.charWeight);
+        layoutH = (LinearLayout) findViewById(R.id.charHips);
 
         DB.initDB(this);
-
-        RefreshCurrent();
-
-        loadAdMob();
-
         initCalendar();
+        refresh();
     }
+
+    private void refresh(){
+        RefreshCurrent();
+        refreshChart();
+    }
+
 
     //region calendar
     GridView g;
     private void initCalendar()
     {
         g = (GridView) findViewById(R.id.gvCalendar);
-        calendarAdapter = new CalendarAdapter(getApplicationContext(),R.layout.item_calendar, 2015, 11);
+        calendarAdapter = new CalendarAdapter(getApplicationContext(),R.layout.item_calendar);
         g.setAdapter(calendarAdapter);
         initMonthName();
     }
@@ -188,29 +178,17 @@ public class MainActivity extends AppCompatActivity {
 
     //endregion calendar
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void refreshChart(){
+        chartViewWeight = ChartHelper.buildChartWeight(getBaseContext());
+        layoutW.removeAllViews();
+        layoutW.addView(chartViewWeight, new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
-        if (chartViewWeight == null) {
+        chartViewHips = ChartHelper.buildChartHips(getBaseContext());
+        layoutH.removeAllViews();
+        layoutH.addView(chartViewHips, new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
-            LinearLayout layoutW = (LinearLayout) findViewById(R.id.charWeight);
-
-            chartViewWeight = ChartHelper.buildChartWeight(getBaseContext());
-            layoutW.addView(chartViewWeight, new LinearLayout.LayoutParams
-                    (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-
-            LinearLayout layoutH = (LinearLayout) findViewById(R.id.charHips);
-
-            chartViewHips = ChartHelper.buildChartWeight(getBaseContext());
-            layoutH.addView(chartViewHips, new LinearLayout.LayoutParams
-                    (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-
-        }
-     else
-        {
-            chartViewWeight.repaint();
-        }
     }
 
     private void RefreshCurrent() {
@@ -220,47 +198,42 @@ public class MainActivity extends AppCompatActivity {
         SetHips(res.hips);
         SetBD(res.birthday);
 
-        // ---------------------
+        String template = getString(R.string.res_html);
         try {
-            String resw = "";
-            if (res.imt < res.imt0)
-                resw = "недостаток веса";
-            else if ((res.imt >= res.imt0 && res.imt < res.imt1))
-                resw = "норма";
-            else if ((res.imt >= res.imt1 && res.imt < res.imt2))
-                resw = "чуть перебор";
-            else if ((res.imt >= res.imt2))
-                resw = "перебор";
-
-            resw = resw + " твой:" + String.valueOf(res.imt) + "  max:" + String.valueOf(res.imt1);
-            _crlResW.setText(resw);
+            String resw = template.replace("{0}", String.valueOf(res.imt))
+                                  .replace("{1}", String.valueOf(res.imt0))
+                                  .replace("{2}", String.valueOf(res.imt1))
+                                  .replace("{3}", String.valueOf(res.hips))
+                                  .replace("{4}", String.valueOf(res.growth / 2))
+                                  ;
+            _crlResW.setText(Html.fromHtml(resw));
+            _crlResW.setMovementMethod(LinkMovementMethod.getInstance());
         }
         catch (Exception ex)
         {
-
+            _crlResW.setText(ex.getMessage());
         }
 
         //_crlResH.setText("твой:" + );
     }
 
-
     public void OnClickSave(View view){
         DBHelper.SaveResults(GetGrowth(), GetHips(), GetWeight());
         DBHelper.SaveSettings(GetBD());
+        refresh();
+        initCalendar();
     }
 
-
     public void OnClickBirthday(View view) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AppTheme);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setTitle("test");
+        alert.setTitle(getString(R.string.title_birthday));
         final DatePicker input = new DatePicker(this);
         input.setCalendarViewShown(false);
 
         alert.setView(input);
 
-        //alert.setPositiveButton(R.string.title_save, new DialogInterface.OnClickListener() {
-        alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(getString(R.string.title_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 Calendar calendar = Calendar.getInstance();
@@ -270,23 +243,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        alert.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(getString(R.string.title_cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
             }
         });
 
         alert.show();
     };
 
-    private void loadAdMob()
-    {
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                    .addTestDevice("42BC762C13DEBCCD86629DD16A42C588")
-                    .addTestDevice("B346B741A6C330AE8DFEF31DFC8423FE")
-                    .build();
-        mAdView.loadAd(adRequest);
-    }
 }
