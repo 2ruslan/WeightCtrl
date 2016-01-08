@@ -7,7 +7,6 @@ import android.graphics.Paint;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.BarChart;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -36,10 +35,6 @@ public  class ChartHelper {
         sRenderer.setChartValuesTextSize(16);
         sRenderer.setChartValuesTextAlign(Paint.Align.RIGHT);
 
-
-        //XYSeriesRenderer.FillOutsideLine fill = new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.BOUNDS_ALL);
-       // fill.setColor(Color.LTGRAY);
-        //sRenderer.addFillOutsideLine(fill);
         sRenderer.setColor(color);
         return sRenderer;
     }
@@ -47,24 +42,13 @@ public  class ChartHelper {
     private static XYMultipleSeriesRenderer getMultiRender(String chartName) {
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
 
-       // multiRenderer.setXLabels(0);
-        //multiRenderer.setYLabelsAngle(-90);
-
-      //  multiRenderer.setBarSpacing(2);
-
         multiRenderer.setChartTitle(chartName);
         multiRenderer.setChartTitleTextSize(18);
-
-        //multiRenderer.setYLabelsAlign(Paint.Align.RIGHT);
-        //multiRenderer.setLabelsTextSize(18);
-
 
         multiRenderer.setShowGrid(true);
         multiRenderer.setApplyBackgroundColor(true);
         multiRenderer.setBackgroundColor(Color.argb(0x00, 0x01, 0x01, 0x01));
         multiRenderer.setMarginsColor(Color.argb(0x00, 0x01, 0x01, 0x01));
-
-
 
         multiRenderer.setShowLegend(false);
         multiRenderer.setClickEnabled(false);
@@ -117,6 +101,6 @@ public  class ChartHelper {
         multiRenderer.clearXTextLabels();
         multiRenderer.setXLabels(0);
 
-        return ChartFactory.getLineChartView (context,dataset,multiRenderer);
+        return ChartFactory.getCubeLineChartView(context,dataset,multiRenderer, 0.2f);
     }
 }

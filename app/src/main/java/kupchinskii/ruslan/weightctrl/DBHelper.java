@@ -43,7 +43,7 @@ public class DBHelper {
         try {
             db = DB.getDBRead();
             cursor = db.query(DB.T_RES, new String[]{DB.C_RES_GROWTH, DB.C_RES_WEIGHT, DB.C_RES_HIPS},
-                    null, null, null, null, DB.C_RES_ID  + " DESC LIMIT 1" );
+                    DB.C_RES_ONDATE + " <= ?", new String[]{onDade}, null, null, DB.C_RES_ONDATE  + " DESC LIMIT 1" );
 
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
@@ -85,12 +85,11 @@ public class DBHelper {
                 , DB.C_RES_WEIGHT + " / 10.0 AS " + DB.C_RES_WEIGHT
                 , DB.C_RES_GROWTH, DB.C_RES_HIPS,
                 }
-                , null, null, null, null, null);
+                , null, null, null, null, DB.C_RES_ONDATE );
     }
 
     public static Cursor GetReusults(int year, int month)
     {
-
         Calendar cStart = Calendar.getInstance();
         cStart.set(year, month, 1);
 
@@ -108,16 +107,16 @@ public class DBHelper {
 
     public static result GetReusultLast()
     {
+        String onDade = DB.getDataStr(Calendar.getInstance().getTime());
         Cursor cursor = null;
         result res = new result();
         SQLiteDatabase db = DB.getDBRead();
         try{
-            cursor =  db.query(DB.V_RES_FULL, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
-                         , DB.C_RES_GROWTH, DB.C_RES_HIPS
-                         , DB.C_RES_IMT
-                         , DB.C_RES_IMT_0, DB.C_RES_IMT_1, DB.C_RES_IMT_2, DB.C_RES_IMT_3, DB.C_RES_IMT_4, DB.C_RES_IMT_5
-                        ," (SELECT " + DB.C_STG_BIRTHDAY + " FROM " + DB.T_STG  + " LIMIT 1) AS " + DB.C_STG_BIRTHDAY
-                          }, null, null, null, null, DB.C_RES_ONDATE + " DESC LIMIT 1");
+            cursor = db.query(DB.V_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
+                    , DB.C_RES_GROWTH, DB.C_RES_HIPS
+                    , DB.C_RES_IMT
+                    , DB.C_RES_HIPS_NORM
+            }, DB.C_RES_ONDATE + " <= ?", new String[]{onDade}, null, null, DB.C_RES_ONDATE + " DESC LIMIT 1");
 
             int index;
             if (cursor.getCount() > 0) {
@@ -130,22 +129,11 @@ public class DBHelper {
                     res.weight = cursor.getInt(index);
                 if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_ONDATE)))
                     res.onDate = DB.getData(cursor.getString(index));
-                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_STG_BIRTHDAY)))
-                    res.birthday = DB.getData(cursor.getString(index));
                 if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT )))
                     res.imt = cursor.getDouble(index);
-                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_0 )))
-                    res.imt0 = cursor.getDouble(index);
-                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_1 )))
-                    res.imt1 = cursor.getDouble(index);
-                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_2 )))
-                    res.imt2 = cursor.getDouble(index);
-                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_3 )))
-                    res.imt3 = cursor.getDouble(index);
-                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_4 )))
-                    res.imt4 = cursor.getDouble(index);
-                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_IMT_5 )))
-                    res.imt5 = cursor.getDouble(index);
+                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_HIPS_NORM )))
+                    res.hipsNorm = (int)cursor.getDouble(index);
+
             }
         } finally {
             if (cursor != null)
@@ -162,64 +150,16 @@ public class DBHelper {
             growth = null;
             hips = null;
             weight = null;
-            birthday = null;
             imt = null;
-            imt0 = null;
-            imt1 = null;
-            imt2 = null;
-            imt3 = null;
-            imt4 = null;
-            imt5 = null;
+            hipsNorm = null;
         }
         Date onDate;
         Integer growth;
         Integer hips;
+        Integer hipsNorm;
         Integer weight;
         Double imt;
-        Double imt0;
-        Double imt1;
-        Double imt2;
-        Double imt3;
-        Double imt4;
-        Double imt5;
-        Date birthday;
+
     }
     //endregion results
-
-    //region setings
-    public static void SaveSettings(Date pBirthDay) {
-        Cursor cursor = null;
-        long id = -1;
-
-        SQLiteDatabase db = DB.getDBRead();
-        // get current
-        try {
-            cursor =  db.query(DB.T_STG, new String[]{DB.C_STG_ID}, null, null, null, null, null);
-
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                id = cursor.getLong(cursor.getColumnIndex(DB.C_STG_ID));
-            }
-        } finally {
-            if (cursor != null)
-                cursor.close();
-            db.close();
-        }
-
-		ContentValues values = new ContentValues();
-		values.put(DB.C_STG_BIRTHDAY, DB.getDataStr(pBirthDay));
-		
-		try {
-			db = DB.getDBWrite();
-            if (id == -1) 
-				db.insert(DB.T_STG, null, values);
-            else 
-                db.update(DB.T_STG, values, null, new String[]{});
-		} finally {
-            db.close();
-        }
-    }
-
-    //endregion setings
-
 }

@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:background="@color/mainBackground"
@@ -24,33 +23,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-            <!-- дата рождения -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="3"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:textColor="@color/colorSilver"
-                    android:text="@string/title_birthday" />
-
-                <EditText
-                    android:id="@+id/et_bd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18dp"
-                    android:focusableInTouchMode="false"
-                    android:cursorVisible="false"
-                    android:inputType="date"
-                    android:onClick="OnClickBirthday" />
-
-            </LinearLayout>
 
             <!-- рост -->
             <LinearLayout
@@ -68,7 +40,7 @@
 
                 <EditText
                     android:id="@+id/et_gh"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorWhite"
                     android:textSize="18dp"
@@ -159,16 +131,11 @@
 
             <TextView
                 android:id="@+id/et_resw"
+                android:textSize="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
                 />
-
-            <EditText
-                android:id="@+id/et_resh"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-              />
 
         </LinearLayout>
         <View
@@ -250,7 +217,26 @@
             android:layout_height="340dp"
             android:orientation="horizontal" />
 
+        <!-- кнопки -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorSilver"
+                android:layout_height="wrap_content"
+                android:onClick="OnClickExit"
+                android:text="@string/title_exit" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
  </ScrollView>
+
 </LinearLayout>
