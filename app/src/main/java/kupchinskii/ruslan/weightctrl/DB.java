@@ -115,13 +115,11 @@ public class DB  extends SQLiteOpenHelper{
         if(oldVersion == 1){
             db.execSQL("DROP VIEW " + V_RES );
             db.execSQL("DROP VIEW " + V_RES_FULL );
-            db.execSQL("DROP VIEW " + T_IMT);
-            db.execSQL("DROP VIEW " + T_STG);
+            db.execSQL("DROP TABLE " + T_IMT);
+            db.execSQL("DROP TABLE " + T_STG);
 
             db.execSQL(SQL_CREATE_VRES);
         }
-
-        db.execSQL("VACUUM");
     }
     //endregion
 
