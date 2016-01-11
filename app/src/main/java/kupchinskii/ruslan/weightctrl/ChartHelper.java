@@ -91,7 +91,7 @@ public  class ChartHelper {
         multiRenderer.setYAxisMax(ymax + deltay);
 
         multiRenderer.setXAxisMax(xmax);
-        multiRenderer.setXAxisMin(xmax > 20 ? xmax - 19 : 0);
+        multiRenderer.setXAxisMin(xmax > 11 ? xmax - 10 : 0);
 
         multiRenderer.addSeriesRenderer(sRenderer);
 

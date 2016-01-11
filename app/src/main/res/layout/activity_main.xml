@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
                 android:text="@string/title_prev"
-                android:background="@color/colorTransparent"
+                android:background="@drawable/round_button"
                 android:onClick="OnClickPrevMonth"
                 />
 
@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
                 android:text="@string/title_next"
-                android:background="@color/colorTransparent"
+                android:background="@drawable/round_button"
                 android:onClick="OnClickNextMonth"
                 />
         </LinearLayout>
@@ -185,7 +185,7 @@
           <GridView
               android:id="@+id/gvCalendar"
               android:layout_width="match_parent"
-              android:layout_height="280dp"
+              android:layout_height="230dp"
               android:verticalSpacing="2dp"
               android:horizontalSpacing="2dp"
               android:numColumns="7"

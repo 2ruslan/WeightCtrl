@@ -9,6 +9,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.SimpleCursorAdapter;
@@ -178,6 +179,11 @@ public class MainActivity extends Activity {
         DBHelper.SaveResults(GetGrowth(), GetHips(), GetWeight());
         refresh();
         initCalendar();
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     public void OnClickExit(View view) {

@@ -1,12 +1,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@android:id/progress">
         <shape
+            android:innerRadiusRatio="4"
             android:shape="ring"
-            android:innerRadiusRatio="2.3"
-            android:thicknessRatio="30.2"
-
+            android:thicknessRatio="40.0"
             android:useLevel="false" >
-            <solid android:color="#FFFFFF"/>
+            <solid android:color="@color/colorSilver"/>
+            <size android:height="20dp" android:width="20dp" />
         </shape>
     </item>
 </layer-list>
