@@ -86,9 +86,9 @@ public  class ChartHelper {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         dataset.addSeries(viewsSeries);
 
-        float deltay = (ymax - ymin) / 10;
-        multiRenderer.setYAxisMin(ymin - deltay);
-        multiRenderer.setYAxisMax(ymax + deltay);
+        float deltaY = ((ymax - ymin) / 10) - ymax == ymin ? 1 : 0;
+        multiRenderer.setYAxisMin(ymin - deltaY);
+        multiRenderer.setYAxisMax(ymax + deltaY);
 
         multiRenderer.setXAxisMax(xmax);
         multiRenderer.setXAxisMin(xmax > 11 ? xmax - 10 : 0);
