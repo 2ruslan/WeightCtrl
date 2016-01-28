@@ -12,10 +12,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import org.achartengine.GraphicalView;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends Activity {
@@ -81,6 +83,8 @@ public class MainActivity extends Activity {
     LinearLayout layoutW;
     LinearLayout layoutH;
 
+    CustomSeekBar sbWeight;
+
     CalendarAdapter calendarAdapter;
 
     private SimpleCursorAdapter dataAdapter;
@@ -99,6 +103,8 @@ public class MainActivity extends Activity {
         layoutW = (LinearLayout) findViewById(R.id.charWeight);
         layoutH = (LinearLayout) findViewById(R.id.charHips);
 
+        sbWeight = (CustomSeekBar) findViewById(R.id.sbWeight);
+
         Helpers.Settings = getSharedPreferences(Helpers.SETTING_FILE, this.MODE_PRIVATE);
         PreferencesHelper.init(getSharedPreferences(PreferencesHelper.APP_PREFERENCES, Context.MODE_PRIVATE));
 
@@ -106,6 +112,57 @@ public class MainActivity extends Activity {
         initCalendar();
         refresh();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        initDataToSeekBar();
+    }
+
+    private void initDataToSeekBar() {
+        ArrayList<ProgressItem> progressItemList = new ArrayList<ProgressItem>();
+
+        // от 13 до 45
+
+        ProgressItem mProgressItem = new ProgressItem();
+        mProgressItem.progressItemPercentage = (float)9.375;
+        mProgressItem.color = R.color.color16;
+        progressItemList.add(mProgressItem);
+        // blue span
+        mProgressItem = new ProgressItem();
+        mProgressItem.progressItemPercentage = (float)7.8125;
+                ;
+        mProgressItem.color = R.color.color185;
+        progressItemList.add(mProgressItem);
+        // green span
+        mProgressItem = new ProgressItem();
+        mProgressItem.progressItemPercentage = (float) 20;
+        mProgressItem.color = R.color.color25;
+        progressItemList.add(mProgressItem);
+
+        //white span
+        mProgressItem = new ProgressItem();
+        mProgressItem.progressItemPercentage = (float) 15.9375;
+        mProgressItem.color =  R.color.color30;
+        progressItemList.add(mProgressItem);
+
+        mProgressItem = new ProgressItem();
+        mProgressItem.progressItemPercentage = (float) 15.625;
+        mProgressItem.color =  R.color.color35;
+        progressItemList.add(mProgressItem);
+
+        mProgressItem = new ProgressItem();
+        mProgressItem.progressItemPercentage = (float) 15.625;
+        mProgressItem.color =  R.color.color40;
+        progressItemList.add(mProgressItem);
+
+        mProgressItem = new ProgressItem();
+        mProgressItem.progressItemPercentage = (float) 15.625;
+        mProgressItem.color =  R.color.color45;
+        progressItemList.add(mProgressItem);
+
+
+        sbWeight.initData(progressItemList);
+        sbWeight.invalidate();
+        sbWeight.setEnabled(false);
+
     }
 
     private void refresh(){
@@ -161,7 +218,7 @@ public class MainActivity extends Activity {
 
         String template = getString(R.string.res_html);
         try {
-
+            sbWeight.setProgress((int)( (res.imt - 13.0) * 3.125 ));
             String resw = template.replace("{0}", String.valueOf(res.imt))
                                   .replace("{3}", String.valueOf(res.hips))
                                   .replace("{4}", String.valueOf(res.hipsNorm))

@@ -16,4 +16,12 @@
     <color name="colorSilver">#505d66</color>
 
     <color name="mainBackground">#1e2c37</color>
+
+    <color name="color16">#3A75C4</color>
+    <color name="color185">#30D5C8</color>
+    <color name="color25">#0BF000</color>
+    <color name="color30">#FFD800</color>
+    <color name="color35">#FF9900</color>
+    <color name="color40">#FF510A</color>
+    <color name="color45">#FF000F</color>
 </resources>

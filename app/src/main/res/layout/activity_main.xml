@@ -127,8 +127,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/et_resw"
                 android:textSize="14dp"
@@ -136,6 +135,19 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
                 />
+
+            <kupchinskii.ruslan.weightctrl.CustomSeekBar
+                android:id="@+id/sbWeight"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:max="100"
+                android:progress="35"
+                android:progressDrawable="@android:color/transparent"
+                android:thumb="@drawable/seek_thumb_normal"
+                android:thumbOffset="10dp"
+
+                />
+
 
         </LinearLayout>
         <View
