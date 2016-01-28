@@ -16,151 +16,174 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="4dp"
+        >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <!-- рост -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:textColor="@color/colorSilver"
-                    android:text="@string/title_growth" />
-
-                <EditText
-                    android:id="@+id/et_gh"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18dp"
-                    android:ems="10"
-                    android:inputType="numberSigned" />
-            </LinearLayout>
-       </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <!-- вес -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="22dp"
-                    android:textColor="@color/colorSilver"
-                    android:text="@string/title_weight" />
-
-                <EditText
-                    android:id="@+id/et_wg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="22dp"
-                    android:inputType="numberDecimal" />
-
-            </LinearLayout>
-
-            <!-- талия -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorSilver"
-                    android:textSize="22dp"
-                    android:text="@string/title_hips" />
-
-                <EditText
-                    android:id="@+id/et_hp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="22dp"
-                    android:ems="10"
-                    android:inputType="numberSigned" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- кнопки -->
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_margin="10dp"
-                android:textColor="@color/colorWhite"
-                android:background="@color/colorSilver"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:background="@drawable/block_background"
+            android:layout_margin="4dp"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="OnClickSave"
-                android:text="@string/title_save" />
+                android:orientation="horizontal"
+                >
 
+                <!-- рост -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        android:textSize="18dp"
+                        android:textColor="@color/colorSilver"
+                        android:text="@string/title_growth" />
+
+                    <EditText
+                        android:id="@+id/et_gh"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18dp"
+                        android:ems="10"
+                        android:inputType="numberSigned" />
+                </LinearLayout>
+           </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <!-- вес -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="22dp"
+                        android:layout_margin="4dp"
+                        android:textColor="@color/colorSilver"
+                        android:text="@string/title_weight" />
+
+                    <EditText
+                        android:id="@+id/et_wg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="22dp"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+
+                <!-- талия -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorSilver"
+                        android:layout_margin="4dp"
+                        android:textSize="22dp"
+                        android:text="@string/title_hips" />
+
+                    <EditText
+                        android:id="@+id/et_hp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="22dp"
+                        android:ems="10"
+                        android:inputType="numberSigned" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- кнопки -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/colorWhite"
+                    android:background="@color/colorSilver"
+                    android:layout_height="wrap_content"
+                    android:onClick="OnClickSave"
+                    android:text="@string/title_save" />
+
+            </LinearLayout>
         </LinearLayout>
-
 
         <!-- результат  -->
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/et_resw"
-                android:textSize="14dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
-                />
+            android:orientation="vertical"
+            android:background="@drawable/block_background"
+            android:layout_margin="4dp"
+            >
 
             <kupchinskii.ruslan.weightctrl.CustomSeekBar
                 android:id="@+id/sbWeight"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:layout_margin="4dp"
                 android:max="100"
-                android:progress="35"
+                android:progress="0"
                 android:progressDrawable="@android:color/transparent"
                 android:thumb="@drawable/seek_thumb_normal"
-                android:thumbOffset="10dp"
+                android:thumbOffset="8dp"
+                />
 
+            <TextView
+                android:id="@+id/et_resw"
+                android:textSize="18dp"
+                android:layout_margin="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                />
+            <TextView
+                android:id="@+id/et_resh"
+                android:textSize="18dp"
+                android:layout_margin="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
                 />
 
 
         </LinearLayout>
-        <View
-            android:layout_margin="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorSilver"/>
 
         <!-- календарь -->
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/block_background"
+            android:layout_margin="4dp"
+            >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -174,6 +197,7 @@
                 android:text="@string/title_prev"
                 android:background="@drawable/round_button"
                 android:onClick="OnClickPrevMonth"
+                android:layout_margin="4dp"
                 />
 
             <TextView
@@ -182,7 +206,9 @@
                 android:textColor="@color/colorWhite"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                />
 
             <Button
                 android:layout_width="wrap_content"
@@ -191,6 +217,7 @@
                 android:text="@string/title_next"
                 android:background="@drawable/round_button"
                 android:onClick="OnClickNextMonth"
+                android:layout_margin="4dp"
                 />
         </LinearLayout>
 
@@ -201,33 +228,47 @@
               android:verticalSpacing="2dp"
               android:horizontalSpacing="2dp"
               android:numColumns="7"
+              android:layout_margin="4dp"
               >
 
           </GridView>
 
         </LinearLayout>
-        <View
-            android:layout_margin="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/colorTransparent"/>
+
         <!-- график вес -->
         <LinearLayout
-        android:id="@+id/charWeight"
-        android:layout_width="fill_parent"
-        android:layout_height="340dp"
-        android:orientation="horizontal" />
-        <View
-            android:layout_margin="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/colorTransparent"/>
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/block_background"
+            android:layout_margin="4dp"
+            >
+                <LinearLayout
+                    android:id="@+id/charWeight"
+                    android:layout_width="fill_parent"
+                    android:layout_height="340dp"
+                    android:orientation="horizontal"
+                    android:layout_margin="4dp"
+                />
+            </LinearLayout>
+
+
         <!-- график талия -->
         <LinearLayout
-            android:id="@+id/charHips"
             android:layout_width="fill_parent"
-            android:layout_height="340dp"
-            android:orientation="horizontal" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/block_background"
+            android:layout_margin="4dp"
+            >
+            <LinearLayout
+                android:id="@+id/charHips"
+                android:layout_width="fill_parent"
+                android:layout_height="340dp"
+                android:orientation="horizontal"
+                android:layout_margin="4dp"
+                />
+            </LinearLayout>
 
         <!-- кнопки -->
         <LinearLayout

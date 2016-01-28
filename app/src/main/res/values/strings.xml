@@ -17,8 +17,12 @@
 
     <string name="res_html">
 <![CDATA[
-<p>Your <a href="https://en.wikipedia.org/wiki/Body_mass_index">body mass index</a> = {0}, rate from 18.5 to 25.
-Waist = {3}, the rate of approximately {4}, maximum 102.</p>
+<body>Your <a href="https://en.wikipedia.org/wiki/Body_mass_index">body mass index</a> = {0}, rate from 18.5 to 25.</body>
+]]>
+</string>
+    <string name="res_html_h">
+<![CDATA[
+<body>Waist = {3}, norm of less than {4}, maximum 102.</body>
 ]]>
 </string>
 

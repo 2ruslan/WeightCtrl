@@ -76,6 +76,7 @@ public class MainActivity extends Activity {
     //endregion Hips
 
     TextView _crlResW;
+    TextView _crlResH;
 
     private GraphicalView chartViewWeight;
     private GraphicalView chartViewHips;
@@ -99,6 +100,7 @@ public class MainActivity extends Activity {
         _crlHips = (TextView) findViewById(R.id.et_hp);
 
         _crlResW = (TextView) findViewById(R.id.et_resw);
+        _crlResH = (TextView) findViewById(R.id.et_resh);
 
         layoutW = (LinearLayout) findViewById(R.id.charWeight);
         layoutH = (LinearLayout) findViewById(R.id.charHips);
@@ -217,14 +219,23 @@ public class MainActivity extends Activity {
         SetHips(res.hips);
 
         String template = getString(R.string.res_html);
+        String templateH = getString(R.string.res_html_h);
         try {
-            sbWeight.setProgress((int)( (res.imt - 13.0) * 3.125 ));
+            sbWeight.setProgress((int) ((res.imt - 13.0) * 3.125));
+
             String resw = template.replace("{0}", String.valueOf(res.imt))
                                   .replace("{3}", String.valueOf(res.hips))
                                   .replace("{4}", String.valueOf(res.hipsNorm))
                                   ;
             _crlResW.setText(Html.fromHtml(resw));
             _crlResW.setMovementMethod(LinkMovementMethod.getInstance());
+
+            String resh = templateH.replace("{0}", String.valueOf(res.imt))
+                    .replace("{3}", String.valueOf(res.hips))
+                    .replace("{4}", String.valueOf(res.hipsNorm))
+                    ;
+            _crlResH.setText(Html.fromHtml(resh));
+            _crlResH.setMovementMethod(LinkMovementMethod.getInstance());
         }
         catch (Exception ex)
         {
