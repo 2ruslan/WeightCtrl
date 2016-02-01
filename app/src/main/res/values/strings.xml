@@ -17,7 +17,7 @@
 
     <string name="res_html">
 <![CDATA[
-<body>Your <a href="https://en.wikipedia.org/wiki/Body_mass_index">body mass index</a> = {0}, rate from 18.5 to 25.</body>
+<body>Your <a href="https://en.wikipedia.org/wiki/Body_mass_index">body mass index</a> = {0}, rate from 18.5({5}kg) to 25({6kg}).</body>
 ]]>
 </string>
     <string name="res_html_h">

@@ -221,21 +221,26 @@ public class MainActivity extends Activity {
         String template = getString(R.string.res_html);
         String templateH = getString(R.string.res_html_h);
         try {
-            sbWeight.setProgress((int) ((res.imt - 13.0) * 3.125));
+            if (res.imt >0 ) {
+                sbWeight.setProgress((int) ((res.imt - 13.0) * 3.125));
 
-            String resw = template.replace("{0}", String.valueOf(res.imt))
-                                  .replace("{3}", String.valueOf(res.hips))
-                                  .replace("{4}", String.valueOf(res.hipsNorm))
-                                  ;
-            _crlResW.setText(Html.fromHtml(resw));
-            _crlResW.setMovementMethod(LinkMovementMethod.getInstance());
-
-            String resh = templateH.replace("{0}", String.valueOf(res.imt))
-                    .replace("{3}", String.valueOf(res.hips))
-                    .replace("{4}", String.valueOf(res.hipsNorm))
-                    ;
-            _crlResH.setText(Html.fromHtml(resh));
-            _crlResH.setMovementMethod(LinkMovementMethod.getInstance());
+                double wMax = (res.growth / 100.0) * (res.growth / 100.0) * 25.0;
+                double wMin = (res.growth / 100.0) * (res.growth / 100.0) * 18.5;
+                String resw = template.replace("{0}", String.valueOf(res.imt))
+                        .replace("{3}", String.valueOf(res.hips))
+                        .replace("{4}", String.valueOf(res.hipsNorm))
+                        .replace("{6}", String.valueOf( Math.round(wMax)))
+                        .replace("{5}", String.valueOf(Math.round(wMin)));
+                _crlResW.setText(Html.fromHtml(resw));
+                _crlResW.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+            if(res.hips >0) {
+                String resh = templateH.replace("{0}", String.valueOf(res.imt))
+                        .replace("{3}", String.valueOf(res.hips))
+                        .replace("{4}", String.valueOf(res.hipsNorm));
+                _crlResH.setText(Html.fromHtml(resh));
+                _crlResH.setMovementMethod(LinkMovementMethod.getInstance());
+            }
         }
         catch (Exception ex)
         {

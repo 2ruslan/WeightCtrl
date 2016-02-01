@@ -34,7 +34,7 @@ public  class ChartHelper {
         sRenderer.setLineWidth((float) 2);
         sRenderer.setChartValuesTextSize(16);
         sRenderer.setChartValuesTextAlign(Paint.Align.RIGHT);
-
+        
         sRenderer.setColor(color);
         return sRenderer;
     }
@@ -43,7 +43,7 @@ public  class ChartHelper {
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
 
         multiRenderer.setChartTitle(chartName);
-        multiRenderer.setChartTitleTextSize(18);
+        multiRenderer.setChartTitleTextSize(20);
 
         multiRenderer.setShowGrid(true);
         multiRenderer.setApplyBackgroundColor(true);
