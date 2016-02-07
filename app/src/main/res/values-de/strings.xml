@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Gewichtskontrolle</string>
+
+    <string name="title_save">Sparen</string>
+    <string name="title_exit">Schließen</string>
+
+    <string name="title_growth">Wachstum(sm)</string>
+    <string name="title_weight">Gewicht(kg)</string>
+    <string name="title_hips">Taille(sm)</string>
+
+    <string name="title_prev">\u003c</string>
+    <string name="title_next">\u003e</string>
+
+    <string name="res_html">
+<![CDATA[
+<body>Ihr <a href="https://de.wikipedia.org/wiki/Body-Mass-Index">Body-Mass-Index</a> = {0}, Rate von 18.5({5} kg) bis 25({6} kg).</body>
+]]>
+</string>
+    <string name="res_html_h">
+<![CDATA[
+<body>Taille = {3}, Norm von weniger als {4}, maximal 102.</body>
+]]>
+</string>
+
+    <!-- просьба оценить -->
+    <string name="msg_estim">Wenn Sie das Programm Bewerten Sie und Ihre eigene Bewertung schreiben.</string>
+    <string name="title_noShowEstim">Nie</string>
+    <string name="title_estim">Preis</string>
+    <string name="title_later">Später</string>
+
+
+</resources>

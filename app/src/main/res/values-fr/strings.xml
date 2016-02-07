@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Le contrôle du poids</string>
+    <string name="title_save">Sauvegarder</string>
+    <string name="title_exit">Fermer</string>
+
+    <string name="title_growth">Croissance(sm)</string>
+    <string name="title_weight">Poids(kg)</string>
+    <string name="title_hips">Taille(sm)</string>
+
+    <string name="title_prev">\u003c</string>
+    <string name="title_next">\u003e</string>
+
+    <string name="res_html">
+<![CDATA[
+<body>Votre <a href="https://fr.wikipedia.org/wiki/Indice_de_masse_corporelle">indice de masse corporelle</a> = {0}, le taux de 18,5 ({5} kg) à 25 ({6} kg).</body>
+]]>
+</string>
+    <string name="res_html_h">
+<![CDATA[
+<body>Taille = {3}, norme de moins de {4}, au maximum 102</body>
+]]>
+</string>
+
+    <!-- просьба оценить -->
+    <string name="msg_estim">Si vous aimez le taux du programme et écrivez votre propre critique.</string>
+    <string name="title_noShowEstim">Jamais</string>
+    <string name="title_estim">Taux</string>
+    <string name="title_later">Plus tard</string>
+
+
+</resources>

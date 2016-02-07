@@ -263,7 +263,7 @@ public class MainActivity extends Activity {
 
         if (!PreferencesHelper.GetNoShowPropO()) {
             Random rnd = new Random();
-            if (rnd.nextInt(31) == 7) {
+            if (rnd.nextInt(21) == 7) {
                 Intent intent = new Intent(MainActivity.this, end_prg.class);
                 startActivity(intent);
             }

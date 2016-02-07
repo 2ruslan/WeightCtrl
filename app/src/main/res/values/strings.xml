@@ -1,23 +1,18 @@
 <resources>
     <string name="app_name">Weight control</string>
-    <string name="title_activity_end_prg">a</string>
-
-    <string name="title_ok">Ok</string>
-    <string name="title_cancel">Cancel</string>
     <string name="title_save">Save</string>
     <string name="title_exit">Close</string>
 
-    <string name="title_birthday">Birthday</string>
     <string name="title_growth">Growth(sm)</string>
     <string name="title_weight">Weight(kg)</string>
-    <string name="title_hips">Hips(sm)</string>
+    <string name="title_hips">Waist(sm)</string>
 
     <string name="title_prev">\u003c</string>
     <string name="title_next">\u003e</string>
 
     <string name="res_html">
 <![CDATA[
-<body>Your <a href="https://en.wikipedia.org/wiki/Body_mass_index">body mass index</a> = {0}, rate from 18.5({5}kg) to 25({6kg}).</body>
+<body>Your <a href="https://en.wikipedia.org/wiki/Body_mass_index">body mass index</a> = {0}, rate from 18.5({5} kg) to 25({6} kg).</body>
 ]]>
 </string>
     <string name="res_html_h">
