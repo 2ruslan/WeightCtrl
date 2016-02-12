@@ -50,9 +50,13 @@ public class MainActivity extends Activity {
         if(!val.equals(""))
             res = Double.parseDouble(val);
 
-        if(res != null)
-            res *=  10;
-        return (int)Math.round(res);
+        if(res != null) {
+            res *= 10;
+            return (int) Math.round(res);
+        }
+        else
+            return 0;
+
     }
     private void SetWeight(Integer val) {
         if(val != null)

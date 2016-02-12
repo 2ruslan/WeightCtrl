@@ -8,8 +8,8 @@ android {
         applicationId "kupchinskii.ruslan.weightctrl"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 10
-        versionName "1.6"
+        versionCode 11
+        versionName "1.7"
     }
     buildTypes {
         release {
@@ -30,4 +30,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+  //  compile 'com.google.android.gms:play-services-drive:8.4.0'
 }
