@@ -18,9 +18,12 @@ public class DBHelper {
 
     //region results
     public static void SaveResults(Integer pGrown, Integer pHips, Integer pWeight) {
+        SaveResults(pGrown, pHips,pWeight,null);
+    }
+    public static void SaveResults(Integer pGrown, Integer pHips, Integer pWeight, Date ondt) {
         Cursor cursor = null;
         long id = -1;
-        String onDade = DB.getDataStr(Calendar.getInstance().getTime());
+        String onDade = DB.getDataStr(  ondt == null ?  Calendar.getInstance().getTime() : ondt) ;
 
         SQLiteDatabase db = DB.getDBRead();
         try {

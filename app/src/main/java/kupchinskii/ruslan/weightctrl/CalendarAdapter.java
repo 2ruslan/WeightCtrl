@@ -1,5 +1,6 @@
 package kupchinskii.ruslan.weightctrl;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -58,9 +59,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
         Items.clear();
 
         for(int i= firstDayWeek; i <= 7; i++)
-            Items.add(new CalendarItem(shortWeekDays[i], "", "", false));
+            Items.add(new CalendarItem(shortWeekDays[i], "", "", false, null));
         for(int i= 1; i <= firstDayWeek - 1; i++)
-             Items.add(new CalendarItem(shortWeekDays[i], "", "", false));
+             Items.add(new CalendarItem(shortWeekDays[i], "", "", false, null));
 
         int emptyDays = dayMonth - (firstDayWeek != 1 ? 2 : 1);
         if (emptyDays < 0)
@@ -69,8 +70,11 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
              Items.add(new CalendarItem());
 
         int offset = Items.size() - 1;
-        for(int i = 1; i<=dayCount;i++)
-             Items.add(new CalendarItem( (i > 9 ? "" : " " ) + String.valueOf(i), "", "", true));
+        Calendar c = Calendar.getInstance();
+        for(int i = 1; i<=dayCount;i++) {
+            c.set(Year, Month,i);
+            Items.add(new CalendarItem((i > 9 ? "" : " ") + String.valueOf(i), "", "", true, c.getTime()));
+        }
 
         Cursor crr =  DBHelper.GetReusults(Year, Month);
         crr.moveToFirst();
@@ -81,6 +85,7 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
             calendar.setTime(onDate);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             Items.get(day+offset).hips = "(" + String.valueOf(hips) + ")";
+            Items.get(day+offset).Hips = String.valueOf(hips);
             Items.get(day+offset).weight = String.format("%s",weight);
 
             crr.moveToNext();

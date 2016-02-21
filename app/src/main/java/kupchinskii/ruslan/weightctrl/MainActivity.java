@@ -1,7 +1,9 @@
 package kupchinskii.ruslan.weightctrl;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -10,23 +12,43 @@ import android.view.View;
 
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.achartengine.GraphicalView;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends Activity {
 
-    private Integer str2int(String val){
+    static public Integer str2int(String val){
         Integer res = null;
-        if(val != null && !val.equals(""))
-            res = Integer.parseInt(val);
+        try {
+            if (val != null && !val.equals(""))
+                res = Integer.parseInt(val);
+        }
+        catch (Exception ex) {};
         return  res;
+    }
+
+    static public Integer getWeight(String val) {
+        Double res = 0.0;
+        try {
+            if (!val.equals(""))
+                res = Double.parseDouble(val);
+
+            if (res != null) {
+                res *= 10;
+            }
+        }catch (Exception ex) {}
+
+        return (int)Math.round(res);
     }
 
     //region Growth
@@ -45,18 +67,7 @@ public class MainActivity extends Activity {
     //region Weight
     TextView _crlWeight;
     private Integer GetWeight() {
-        Double res = null;
-        String val = _crlWeight.getText().toString();
-        if(!val.equals(""))
-            res = Double.parseDouble(val);
-
-        if(res != null) {
-            res *= 10;
-            return (int) Math.round(res);
-        }
-        else
-            return 0;
-
+        return getWeight(_crlWeight.getText().toString());
     }
     private void SetWeight(Integer val) {
         if(val != null)
@@ -91,8 +102,9 @@ public class MainActivity extends Activity {
     CustomSeekBar sbWeight;
 
     CalendarAdapter calendarAdapter;
+    GridView g;
 
-    private SimpleCursorAdapter dataAdapter;
+   // private SimpleCursorAdapter dataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +122,8 @@ public class MainActivity extends Activity {
         layoutH = (LinearLayout) findViewById(R.id.charHips);
 
         sbWeight = (CustomSeekBar) findViewById(R.id.sbWeight);
+
+        g = (GridView) findViewById(R.id.gvCalendar);
 
         Helpers.Settings = getSharedPreferences(Helpers.SETTING_FILE, this.MODE_PRIVATE);
         PreferencesHelper.init(getSharedPreferences(PreferencesHelper.APP_PREFERENCES, Context.MODE_PRIVATE));
@@ -174,17 +188,72 @@ public class MainActivity extends Activity {
     private void refresh(){
         RefreshCurrent();
         refreshChart();
+
+        initCalendar();
+        try {
+            InputMethodManager inputManager = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+        catch (Exception ex)
+        {}
     }
 
 
     //region calendar
-    GridView g;
+
     private void initCalendar()
     {
-        g = (GridView) findViewById(R.id.gvCalendar);
+
         calendarAdapter = new CalendarAdapter(getApplicationContext(),R.layout.item_calendar);
         g.setAdapter(calendarAdapter);
         initMonthName();
+
+        g.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final CalendarItem itm = calendarAdapter.getItem(position);
+                if (itm.isDay) {
+                    /**/
+
+                    View frg = View.inflate(MainActivity.this, R.layout.day_edit, null);
+                    final EditText ed_hips = (EditText) frg.findViewById(R.id.ed_hips);
+                    final EditText ed_weight = (EditText) frg.findViewById(R.id.ed_weight);
+
+                    ed_weight.setText(itm.weight);
+                    ed_hips.setText(itm.Hips);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.CustomDialogTheme);
+
+
+                    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+
+                    builder.setTitle(dateFormat.format(itm.date));
+
+                    builder
+                            .setView(frg)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.title_save, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    String th = ed_hips.getText().toString();
+                                    String tw = ed_weight.getText().toString();
+
+                                    DBHelper.SaveResults(null, MainActivity.str2int(th), MainActivity.getWeight(tw), itm.date);
+                                    MainActivity.this.refresh();
+                                }
+                            })
+                            .setNegativeButton(R.string.title_exit, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                }
+                            }).show();
+
+                    /**/
+                }
+            }
+        });
     }
 
     public void OnClickNextMonth(View view){
@@ -255,12 +324,7 @@ public class MainActivity extends Activity {
     public void OnClickSave(View view){
         DBHelper.SaveResults(GetGrowth(), GetHips(), GetWeight());
         refresh();
-        initCalendar();
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     public void OnClickExit(View view) {
@@ -273,6 +337,7 @@ public class MainActivity extends Activity {
             }
         }
         finish();
+
     }
 
 }
