@@ -33,7 +33,13 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
     Context mContext;
 
     static public String getMonthName(){
-        return (String)android.text.format.DateFormat.format("LLLL", calendar ) + ", " + String.valueOf(Year);
+        String res = (String)android.text.format.DateFormat.format("LLLL", calendar ) + ", " + String.valueOf(Year);
+        if(res.contains("LLLL")) {
+            String month_date = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+
+            res = res.replace("LLLL", month_date);
+        }
+        return res;
     }
 
     // Конструктор
