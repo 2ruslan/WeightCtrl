@@ -111,26 +111,27 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
         View gridView;
 
         if (!isInit) {
-            gridView = inflater.inflate(R.layout.item_calendar, null);
+            boolean isEmpty = (Items.get(position).weight == null || Items.get(position).weight.equals(""))
+                    && (Items.get(position).Hips == null || Items.get(position).Hips.equals(""));
+
+            if (isEmpty) {
+                gridView = inflater.inflate(R.layout.item_calendar_empt, null);
+            }
+            else {
+                gridView = inflater.inflate(R.layout.item_calendar, null);
+
+                TextView wgt = (TextView) gridView.findViewById(R.id.ic_weight);
+                wgt.setText(Items.get(position).weight);
+
+                TextView hps = (TextView) gridView.findViewById(R.id.ic_hips);
+                hps.setText(Items.get(position).hips);
+            }
+
+            TextView day = (TextView) gridView.findViewById(R.id.ic_day);
+            day.setText(Items.get(position).day);
 
             if (!Items.get(position).isDay)
                 gridView.setBackground( getContext().getResources().getDrawable(R.drawable.calendar_item_background_empty));
-
-            TextView day = (TextView) gridView
-                    .findViewById(R.id.ic_day);
-
-            day.setText(Items.get(position).day);
-
-            TextView wgt = (TextView) gridView
-                    .findViewById(R.id.ic_weight);
-
-            wgt.setText(Items.get(position).weight);
-
-            TextView hps = (TextView) gridView
-                    .findViewById(R.id.ic_hips);
-
-            hps.setText(Items.get(position).hips);
-
 
         } else {
             gridView = (View) convertView;
