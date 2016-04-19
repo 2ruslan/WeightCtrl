@@ -3,12 +3,16 @@ package kupchinskii.ruslan.weightctrl;
 import android.content.ClipData;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.text.style.TtsSpan;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +34,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
     static Calendar calendar;
     private static List<CalendarItem> Items = new ArrayList<CalendarItem>();
 
+    private int FontDaySize = -1;
+    private int FontValSize = -1;
+
     Context mContext;
 
     static public String getMonthName(){
@@ -45,8 +52,23 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
     // Конструктор
     public CalendarAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId, Items);
+
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        FontDaySize = Math.min(( (int)pixelsToSp(context, (float)size.x) / 34), 11);
+        FontValSize = Math.min(( (int)pixelsToSp(context, (float)size.x) / 36), 9);
+
         this.mContext = context;
         initMonth(Calendar.getInstance().get(Calendar.YEAR) , Calendar.getInstance().get(Calendar.MONTH));
+
+
+    }
+
+    public static float pixelsToSp(Context context, float px) {
+        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+        return px/scaledDensity;
     }
 
     boolean isInit = false;
@@ -122,13 +144,19 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
                 TextView wgt = (TextView) gridView.findViewById(R.id.ic_weight);
                 wgt.setText(Items.get(position).weight);
+                if (FontValSize != -1 )
+                    wgt.setTextSize(TypedValue.COMPLEX_UNIT_SP,  FontValSize);
 
                 TextView hps = (TextView) gridView.findViewById(R.id.ic_hips);
                 hps.setText(Items.get(position).hips);
+                if (FontValSize != -1 )
+                    hps.setTextSize(TypedValue.COMPLEX_UNIT_SP,  FontValSize);
             }
 
             TextView day = (TextView) gridView.findViewById(R.id.ic_day);
             day.setText(Items.get(position).day);
+            if (FontDaySize != -1 && !isEmpty)
+                day.setTextSize(TypedValue.COMPLEX_UNIT_SP,  FontDaySize);
 
             if (!Items.get(position).isDay)
                 gridView.setBackground( getContext().getResources().getDrawable(R.drawable.calendar_item_background_empty));

@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "kupchinskii.ruslan.weightctrl"
-        minSdkVersion 10
+        minSdkVersion 14
         targetSdkVersion 23
-        versionCode 14
-        versionName "2.0"
+        versionCode 15
+        versionName "2.1"
     }
     buildTypes {
         release {
