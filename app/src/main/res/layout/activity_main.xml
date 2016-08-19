@@ -137,6 +137,7 @@
 
         <!-- результат  -->
         <LinearLayout
+            android:id="@+id/holderResCtrl"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -239,13 +240,14 @@
 
         <!-- график вес -->
         <LinearLayout
+            android:id="@+id/holderCharWeight"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@drawable/block_background"
             android:layout_margin="4dp"
             >
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/charWeight"
                     android:layout_width="fill_parent"
                     android:layout_height="340dp"
@@ -257,13 +259,14 @@
 
         <!-- график талия -->
         <LinearLayout
+            android:id="@+id/holderCharHips"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@drawable/block_background"
             android:layout_margin="4dp"
             >
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/charHips"
                 android:layout_width="fill_parent"
                 android:layout_height="340dp"

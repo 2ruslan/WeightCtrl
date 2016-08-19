@@ -7,6 +7,7 @@ import android.graphics.Paint;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -62,7 +63,20 @@ public  class ChartHelper {
 
     private static GraphicalView getChartBase(Context context, Cursor crr
             , int color, String colName, String chartName) {
+
+        if(crr.getCount() < 1)
+            return null;
+
+        boolean is0 = true;
         crr.moveToFirst();
+        for (int i = 0; i < crr.getCount(); i++) {
+            if(crr.getFloat(crr.getColumnIndex(colName)) > 0)
+                is0 = false;
+
+            crr.moveToNext();
+        }
+        if(is0)
+            return null;
 
         XYSeries viewsSeries = new XYSeries("Views");
         XYSeriesRenderer sRenderer = getDefRender(color);
@@ -70,7 +84,7 @@ public  class ChartHelper {
 
         long xmax = 0;
         float ymin = 99999, ymax = 0;
-
+        crr.moveToFirst();
         for (int i = 0; i < crr.getCount(); i++) {
             float yval = crr.getFloat(crr.getColumnIndex(colName));
 
@@ -89,7 +103,12 @@ public  class ChartHelper {
         dataset.addSeries(viewsSeries);
 
         float deltaY = ((ymax - ymin) / 10) - ymax == ymin ? 1 : 0;
-        multiRenderer.setYAxisMin(ymin - deltaY);
+
+        if(crr.getCount() == 1)
+           multiRenderer.setYAxisMin(0);
+        else
+            multiRenderer.setYAxisMin(ymin - deltaY);
+
         multiRenderer.setYAxisMax(ymax + deltaY);
 
         multiRenderer.setXAxisMax(xmax);
@@ -102,7 +121,9 @@ public  class ChartHelper {
         multiRenderer.setShowGridY(false);
         multiRenderer.clearXTextLabels();
         multiRenderer.setXLabels(0);
-
-        return ChartFactory.getCubeLineChartView(context,dataset,multiRenderer, 0.2f);
+        if(crr.getCount() == 1)
+            return ChartFactory.getBarChartView (context,dataset,multiRenderer, BarChart.Type.DEFAULT);
+        else
+             return ChartFactory.getCubeLineChartView(context,dataset,multiRenderer, 0.2f);
     }
 }

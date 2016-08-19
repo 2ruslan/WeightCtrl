@@ -10,12 +10,14 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,15 +98,17 @@ public class MainActivity extends Activity {
     private GraphicalView chartViewWeight;
     private GraphicalView chartViewHips;
 
-    LinearLayout layoutW;
-    LinearLayout layoutH;
+    RelativeLayout layoutW;
+    RelativeLayout layoutH;
+
+    View layoutHolderW;
+    View layoutHolderH;
+ //   View holderResCtrl;
 
     CustomSeekBar sbWeight;
 
     CalendarAdapter calendarAdapter;
     GridView g;
-
-   // private SimpleCursorAdapter dataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,8 +122,13 @@ public class MainActivity extends Activity {
         _crlResW = (TextView) findViewById(R.id.et_resw);
         _crlResH = (TextView) findViewById(R.id.et_resh);
 
-        layoutW = (LinearLayout) findViewById(R.id.charWeight);
-        layoutH = (LinearLayout) findViewById(R.id.charHips);
+        layoutW = (RelativeLayout) findViewById(R.id.charWeight);
+        layoutH = (RelativeLayout) findViewById(R.id.charHips);
+
+        layoutHolderW = findViewById(R.id.holderCharWeight);
+        layoutHolderH = findViewById(R.id.holderCharHips);
+ //       holderResCtrl = findViewById(R.id.holderResCtrl);
+
 
         sbWeight = (CustomSeekBar) findViewById(R.id.sbWeight);
 
@@ -275,14 +284,30 @@ public class MainActivity extends Activity {
     private void refreshChart(){
         chartViewWeight = ChartHelper.buildChartWeight(getBaseContext());
         layoutW.removeAllViews();
-        layoutW.addView(chartViewWeight, new LinearLayout.LayoutParams
-                (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+
+
+        if (chartViewWeight != null) {
+            layoutHolderW.setVisibility(View.VISIBLE);
+//            holderResCtrl.setVisibility(View.VISIBLE);
+            layoutW.addView(chartViewWeight, new LinearLayout.LayoutParams
+                    (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        }
+        else {
+            layoutHolderW.setVisibility(View.GONE);
+//            holderResCtrl.setVisibility(View.VISIBLE);
+        }
 
         chartViewHips = ChartHelper.buildChartHips(getBaseContext());
         layoutH.removeAllViews();
-        layoutH.addView(chartViewHips, new LinearLayout.LayoutParams
-                (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
+        if(chartViewHips != null) {
+            layoutHolderH.setVisibility(View.VISIBLE);
+            layoutH.addView(chartViewHips, new LinearLayout.LayoutParams
+                    (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        }
+        else{
+            layoutHolderH.setVisibility(View.GONE);
+        }
     }
 
     private void RefreshCurrent() {
