@@ -97,15 +97,16 @@ public class DBHelper {
         cStart.set(year, month, 1);
 
         Calendar cEnd = Calendar.getInstance();
-        cEnd.set(year, month + 1, -1);
+        cEnd.set(year, month + 1, -1, 23, 59, 59);
+
 
 
         SQLiteDatabase db = DB.getDBRead();
         return  db.query(DB.T_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE
                 , DB.C_RES_WEIGHT + " / 10.0 AS " + DB.C_RES_WEIGHT
                 , DB.C_RES_GROWTH, DB.C_RES_HIPS }
-                , DB.C_RES_ONDATE + " BETWEEN ? AND ? "
-                , new String[]{DB.getDataStr(cStart.getTime()), DB.getDataStr(cEnd.getTime())}, null, null, DB.C_RES_ONDATE);
+                , "strftime('%Y', "  + DB.C_RES_ONDATE + ") = ? AND strftime('%m'," + DB.C_RES_ONDATE + ") = ?"
+                , new String[]{String.valueOf(year), (++ month > 9) ?  "0" : "0" + String.valueOf(month)}, null, null, DB.C_RES_ONDATE);
     }
 
     public static result GetReusultLast()
