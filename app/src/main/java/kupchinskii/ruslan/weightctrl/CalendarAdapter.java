@@ -87,9 +87,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
         Items.clear();
 
         for(int i= firstDayWeek; i <= 7; i++)
-            Items.add(new CalendarItem(shortWeekDays[i], "", "", false, null));
+            Items.add(new CalendarItem(shortWeekDays[i], "", "", false, null, false));
         for(int i= 1; i <= firstDayWeek - 1; i++)
-             Items.add(new CalendarItem(shortWeekDays[i], "", "", false, null));
+             Items.add(new CalendarItem(shortWeekDays[i], "", "", false, null, false));
 
         int emptyDays = dayMonth - (firstDayWeek != 1 ? 2 : 1);
         if (emptyDays < 0)
@@ -101,7 +101,7 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
         Calendar c = Calendar.getInstance();
         for(int i = 1; i<=dayCount;i++) {
             c.set(Year, Month,i);
-            Items.add(new CalendarItem((i > 9 ? "" : " ") + String.valueOf(i), "", "", true, c.getTime()));
+            Items.add(new CalendarItem((i > 9 ? "" : " ") + String.valueOf(i), "", "", true, c.getTime(),false/* c.getTime().getDate() == Calendar.getInstance().getTime().getDate() */));
         }
 
         Cursor crr =  DBHelper.GetReusults(Year, Month);
@@ -155,6 +155,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
 
             TextView day = (TextView) gridView.findViewById(R.id.ic_day);
             day.setText(Items.get(position).day);
+            if(Items.get(position).isToday)
+                day.setTextColor( convertView.getResources().getColor( R.color.color25));
+
             if (FontDaySize != -1 && !isEmpty)
                 day.setTextSize(TypedValue.COMPLEX_UNIT_SP,  FontDaySize);
 
@@ -164,6 +167,9 @@ public class CalendarAdapter extends ArrayAdapter<CalendarItem> {
         } else {
             gridView = (View) convertView;
         }
+
+
+
 
         if (Items.size() == position)
             isInit = true;

@@ -106,7 +106,7 @@ public class DBHelper {
                 , DB.C_RES_WEIGHT + " / 10.0 AS " + DB.C_RES_WEIGHT
                 , DB.C_RES_GROWTH, DB.C_RES_HIPS }
                 , "strftime('%Y', "  + DB.C_RES_ONDATE + ") = ? AND strftime('%m'," + DB.C_RES_ONDATE + ") = ?"
-                , new String[]{String.valueOf(year), (++ month > 9) ?  "0" : "" + String.valueOf(month)}, null, null, DB.C_RES_ONDATE);
+                , new String[]{String.valueOf(year), (((++ month) <= 9) ?  "0" : "") + String.valueOf(month)}, null, null, DB.C_RES_ONDATE);
     }
 
     public static result GetReusultLast()
