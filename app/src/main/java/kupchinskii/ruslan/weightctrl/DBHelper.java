@@ -113,20 +113,27 @@ public class DBHelper {
     {
         String onDade = DB.getDataStr(Calendar.getInstance().getTime());
         Cursor cursor = null;
+        Cursor cursorG = null;
+
         result res = new result();
         SQLiteDatabase db = DB.getDBRead();
         try{
             cursor = db.query(DB.V_RES, new String[]{DB.C_RES_ID, DB.C_RES_ONDATE, DB.C_RES_WEIGHT
-                    , DB.C_RES_GROWTH, DB.C_RES_HIPS
+                    , DB.C_RES_HIPS
                     , DB.C_RES_IMT
                     , DB.C_RES_HIPS_NORM
             }, DB.C_RES_ONDATE + " <= ?", new String[]{onDade}, null, null, DB.C_RES_ONDATE + " DESC LIMIT 1");
 
+            cursorG = db.query(DB.V_RES, new String[]{"MAX(" + DB.C_RES_GROWTH + ") as MAX_" + DB.C_RES_GROWTH}
+                    , DB.C_RES_ONDATE + " <= ?", new String[]{onDade}, null, null, null);
+
             int index;
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
-                if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_GROWTH)))
-                    res.growth = cursor.getInt(index);
+                cursorG.moveToFirst();
+
+                if (!cursorG.isNull(index=cursorG.getColumnIndex("MAX_" + DB.C_RES_GROWTH)))
+                    res.growth = cursorG.getInt(index);
                 if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_HIPS)))
                     res.hips = cursor.getInt(index);
                 if (!cursor.isNull(index=cursor.getColumnIndex(DB.C_RES_WEIGHT)))
